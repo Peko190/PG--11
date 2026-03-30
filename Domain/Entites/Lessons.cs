@@ -13,6 +13,7 @@ namespace PG_Тема_11.Domain.Entites
         public string Content { get; private set; }
         public int Order { get; private set; }
         public int CourseId { get; private set; }
+        private readonly List<Lessons> _lessons = new List<Lessons>();
 
         public Lessons(string title, string content, int order, int courseId)
         {
@@ -22,6 +23,9 @@ namespace PG_Тема_11.Domain.Entites
             CourseId = courseId;
         }
 
-
+        public void AddLesson(Lessons lesson)
+        {
+            _lessons.Add(lesson);
+        }
     }
 }
