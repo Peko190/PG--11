@@ -13,20 +13,12 @@ namespace PG_Тема_11.Domain.Entites
         public string Description { get; private set; }
         public string Level { get; private set; }
 
-        private readonly List<Lessons> _lessons = new List<Lessons>();
-        public IReadOnlyCollection<Lessons> Lessons => _lessons.AsReadOnly();
-
         public Courses(int id, string title, string description, string level)
         {
             Id = id;
             Title = title;
             Description = description;
             Level = level;
-        }
-
-        public void AddLesson(Lessons lesson)
-        {
-            _lessons.Add(lesson);
         }
     }
 }
