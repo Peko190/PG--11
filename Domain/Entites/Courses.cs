@@ -20,5 +20,12 @@ namespace PG_Тема_11.Domain.Entites
             Description = description;
             Level = level;
         }
+
+        public void EditCourses(string title, string description, string level)
+        {
+            Title = title;
+            Description = description;
+            Level = level;
+        }
     }
 }

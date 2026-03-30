@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -26,6 +27,13 @@ namespace PG_Тема_11.Domain.Entites
         public void AddLesson(Lessons lesson)
         {
             _lessons.Add(lesson);
+        }
+
+        public void EditLessons(string title, string content, int order)
+        {
+            Title = title;
+            Content = content;
+            Order = order;
         }
     }
 }
