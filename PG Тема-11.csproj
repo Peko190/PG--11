@@ -43,7 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Domain\Entites\Class1.cs" />
+    <Compile Include="Domain\Entites\Courses.cs" />
+    <Compile Include="Domain\Entites\Lessons.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
