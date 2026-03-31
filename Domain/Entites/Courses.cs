@@ -13,6 +13,7 @@ namespace PG_Тема_11.Domain.Entites
         public string Description { get; private set; }
         public string Level { get; private set; }
         private readonly List<Lessons> _lessons = new List<Lessons>();
+        public IReadOnlyCollection<Lessons> Lessons => _lessons.AsReadOnly();
 
         public Courses(int id, string title, string description, string level)
         {
@@ -39,5 +40,10 @@ namespace PG_Тема_11.Domain.Entites
             _lessons.Sort((a, b) => a.Order.CompareTo(b.Order));
         }
 
+        public void RemoveLesson(int lessonId)
+        {
+            _lessons.RemoveAll(l => l.Id == lessonId);
+            ReorderLessons();
+        }
     }
 }
