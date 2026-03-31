@@ -44,7 +44,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domain\Entites\Courses.cs" />
+    <Compile Include="Domain\Entites\Enrolments.cs" />
     <Compile Include="Domain\Entites\Lessons.cs" />
+    <Compile Include="Domain\Entites\Progress.cs" />
+    <Compile Include="Domain\Entites\Students.cs" />
+    <Compile Include="Domain\Entites\Tests.cs" />
+    <Compile Include="Domain\Enums\EnrollmentStatus.cs" />
+    <Compile Include="Domain\Enums\Level.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -53,7 +59,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App\" />
-    <Folder Include="Domain\Enums\" />
     <Folder Include="Domain\ValueObjects\" />
     <Folder Include="Infrastructure\" />
     <Folder Include="UI\" />
