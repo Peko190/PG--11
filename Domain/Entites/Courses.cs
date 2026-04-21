@@ -12,8 +12,8 @@ namespace PG_Тема_11.Domain.Entites
         public string Title { get; private set; }
         public string Description { get; private set; }
         public string Level { get; private set; }
-        private readonly List<Lessons> _lessons = new List<Lessons>();
-        public IReadOnlyCollection<Lessons> Lessons => _lessons.AsReadOnly();
+        private readonly List<Lessons> lessons = new List<Lessons>();
+        
 
         public Courses(int id, string title, string description, string level)
         {
@@ -23,10 +23,7 @@ namespace PG_Тема_11.Domain.Entites
             Level = level;
         }
 
-        public void AddLesson(Lessons lesson)
-        {
-            _lessons.Add(lesson);
-        }
+        
 
         public void EditCourses(string title, string description, string level)
         {
@@ -35,15 +32,6 @@ namespace PG_Тема_11.Domain.Entites
             Level = level;
         }
 
-        public void ReorderLessons()
-        {
-            _lessons.Sort((a, b) => a.Order.CompareTo(b.Order));
-        }
-
-        public void RemoveLesson(int lessonId)
-        {
-            _lessons.RemoveAll(l => l.Id == lessonId);
-            ReorderLessons();
-        }
+       
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PG_Тема_11.Domain.Entites
 {
-    internal class Students
+    public class Students
     {
         public int Id { get; set; }
         public string Name { get; set; }

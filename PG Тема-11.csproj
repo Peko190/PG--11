@@ -43,6 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App\CourseService.cs" />
+    <Compile Include="App\EnrolmentService.cs" />
+    <Compile Include="App\ICourseRepository.cs" />
+    <Compile Include="App\IEnrollmentRepository.cs" />
     <Compile Include="Domain\Entites\Courses.cs" />
     <Compile Include="Domain\Entites\Enrolments.cs" />
     <Compile Include="Domain\Entites\Lessons.cs" />
@@ -51,17 +55,17 @@
     <Compile Include="Domain\Entites\Tests.cs" />
     <Compile Include="Domain\Enums\EnrollmentStatus.cs" />
     <Compile Include="Domain\Enums\Level.cs" />
+    <Compile Include="Infrastructure\CourseRepository.cs" />
+    <Compile Include="Infrastructure\EnrollmentRepository.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI\ConsoleUI.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App\" />
     <Folder Include="Domain\ValueObjects\" />
-    <Folder Include="Infrastructure\" />
-    <Folder Include="UI\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PG_Тема_11.Domain.Entites
 {
-    internal class Progress
+    public class Progress
     {
         public int Id { get; set; }
 

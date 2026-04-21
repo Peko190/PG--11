@@ -9,7 +9,7 @@ using static PG_Тема_11.Domain.Enums.Level;
 
 namespace PG_Тема_11.Domain.Entites
 {
-    internal class Enrolments
+    public class Enrolments
     {
         public int Id { get; set; }
         public int StudentId { get; set; }
