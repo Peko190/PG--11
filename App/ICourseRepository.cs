@@ -10,8 +10,9 @@ namespace PG_Тема_11.App
     public interface ICourseRepository
     {
         Courses GetById(int id);
-        List<Courses> GetAll();
-        void Add(Courses course);
-        void Update(Courses course);
+        
+        void Save(Courses course);
+
+        IReadOnlyList<Courses> GetAll();
     }
 }
