@@ -22,17 +22,35 @@ namespace PG_Тема_11.App
             this.enrolrepo = enrolrepo;
         }
         
-        public void CreateCourse(int id , string title,string description,Level level)
+        public void CreateCourse(string title,string description,Level level)
         {
            var course = new Courses(
-               id,
+               0,
                title,
                description, 
                level);
 
             courserepo.Save(course);
         }
-      
+        public void EditCourses(int id, string title, string description, Level level)
+        {
+            var course = courserepo.GetById(id);
+            if (course == null)
+            {
+                throw new Exception("Course not found");
+            }
+            course.Title = title;
+            course.Description = description;
+            course.level= level;
+            courserepo.Save(course);
+            
+        }
+
+        public IReadOnlyList<Courses> GetAll()
+        {
+            return courserepo.GetAll();
+        }
+
 
     }
 }

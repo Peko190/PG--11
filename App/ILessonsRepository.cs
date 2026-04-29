@@ -7,12 +7,9 @@ using System.Threading.Tasks;
 
 namespace PG_Тема_11.App
 {
-    public interface IEnrollmentRepository
+    public interface ILessonsRepository
     {
-        void Save(Enrolments enrollment);
-        
-         IReadOnlyList<Enrolments> GetById(int id);
-
-
+        IReadOnlyList<Lessons> GetAll();
+        void Save(Lessons lesson);
     }
 }

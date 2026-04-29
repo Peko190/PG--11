@@ -34,7 +34,7 @@ namespace PG_Тема_11.Infrastructure
             storage.Save(db);
         }
 
-        public IReadOnlyList<Enrolments> GetByAccountId(int id)
+        public IReadOnlyList<Enrolments> GetById(int id)
         {
             var db = storage.Load();
 

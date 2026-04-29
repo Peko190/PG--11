@@ -13,5 +13,8 @@ namespace PG_Тема_11.Infrastructure
         public List<Courses>Courses { get; set; } = new List<Courses>();
         public List<Enrolments> Enrolments { get; set; } = new List<Enrolments>();
 
+        public List<Lessons> Lessons { get; set; } = new List<Lessons> ();
+        public List<Students> Students { get; set; } = new List<Students>();
+
     }
 }

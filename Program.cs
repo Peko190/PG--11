@@ -22,6 +22,8 @@ namespace PG_Тема_11
             var service = new EnrolAndCoursesService (enrolrepo,courserepo);
 
             var ui = new ConsoleUI(service);
+
+            ui.Run();
         }
     }
 }

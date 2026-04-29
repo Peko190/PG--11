@@ -10,13 +10,9 @@ namespace PG_Тема_11.Domain.Entites
     public class Courses
     {
         public int Id { get; private set; }
-        public string Title { get; private set; }
-        public string Description { get; private set; }
-        public  Level level { get; private set; }
-
-
-        private readonly List<Lessons> lessons = new List<Lessons>();
-        
+        public string Title { get;  set; }
+        public string Description { get;  set; }
+        public  Level level { get;  set; }
 
         public Courses(int id, string title, string description, Level level)
         {
@@ -26,15 +22,5 @@ namespace PG_Тема_11.Domain.Entites
             this.level = level;
         }
 
-        
-
-        public void EditCourses(string title, string description, Level level)
-        {
-            Title = title;
-            Description = description;
-            this.level = level;
-        }
-
-       
     }
 }

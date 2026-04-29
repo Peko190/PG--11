@@ -54,23 +54,7 @@ namespace PG_Тема_11.Infrastructure
                     );
                 db.Courses.Add(newCourse);
             }
-            else
-            {
-                bool found = false;
-                for (int i = 0; i < db.Courses.Count; i++)
-                {
-                    if (db.Courses[i].Id == course.Id)
-                    {
-                        db.Courses[i] = course;
-                        found = true;
-                        break;
-                    }
-                }
-                if (!found)
-                {
-                    throw new Exception("Course not found");
-                }
-            }
+           
 
             storage.Save(db);
 
