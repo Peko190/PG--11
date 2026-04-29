@@ -38,11 +38,11 @@ namespace PG_Тема_11.UI
                 Console.WriteLine("12:Add new Student");
                 Console.WriteLine("13:Add new Student");
                 Console.WriteLine("14:Add new Student");
-                Console.WriteLine("15:Add new Student");
-                Console.WriteLine("16:Add new Student");
-                Console.WriteLine("17:Add new Student");
-                Console.WriteLine("18:Add new Student");
-                Console.WriteLine("19:Add new Student");
+                Console.WriteLine("15:");
+                Console.WriteLine("16:");
+                Console.WriteLine("17:");
+                Console.WriteLine("18:");
+                Console.WriteLine("19:");
                 Console.WriteLine("20:End");
 
                 Console.Write("Choose: ");
