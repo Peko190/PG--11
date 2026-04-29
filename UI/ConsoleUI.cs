@@ -43,7 +43,7 @@ namespace PG_Тема_11.UI
                 Console.WriteLine("17:Add new Student");
                 Console.WriteLine("18:Add new Student");
                 Console.WriteLine("19:Add new Student");
-                Console.WriteLine("20:Add new Student");
+                Console.WriteLine("20:End");
 
                 Console.Write("Choose: ");
                 int input = int.Parse(Console.ReadLine());
