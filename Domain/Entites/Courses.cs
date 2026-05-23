@@ -13,7 +13,8 @@ namespace PG_Тема_11.Domain.Entites
         public string Title { get;  set; }
         public string Description { get;  set; }
         public  Level level { get;  set; }
-
+        public ICollection<Enrolments> Enrolments { get; set; } = new List<Enrolments>();
+        protected Courses() { }
         public Courses(int id, string title, string description, Level level)
         {
             Id = id;

@@ -23,10 +23,5 @@ namespace PG_Тема_11.Domain.Entites
             CourseId = courseId;
         }
 
-        
-
-       
-
-        
     }
 }

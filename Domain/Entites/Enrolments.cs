@@ -21,6 +21,7 @@ namespace PG_Тема_11.Domain.Entites
         public EnrollmentStatus Status { get; set; }
         public double Progress { get; set; }
 
+        public Enrolments() { }
         public Enrolments(int id, int StudentId, int CoursesId, EnrollmentStatus status,double Progres)
         {
             Id = id;

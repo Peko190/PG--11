@@ -8,6 +8,6 @@ namespace PG_Тема_11.Infrastructure
 {
     public class StudentsRepository
     {
-        public StudentsRepository() { };
+        public StudentsRepository() { }
     }
 }
