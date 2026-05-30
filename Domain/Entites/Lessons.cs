@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace PG_Тема_11.Domain.Entites
 {
@@ -14,9 +15,13 @@ namespace PG_Тема_11.Domain.Entites
         public string Content { get;  set; }
         public int Order { get;  set; }
         public int CourseId { get;  set; }
-
+        public Courses Courses{ get; set; }
+       
+        public ICollection<Tests> Tests { get; set; } = new List<Tests>();
+        public Lessons() { }
         public Lessons(int id , string title, string content, int order, int courseId)
         {
+            Id = id;
             Title = title;
             Content = content;
             Order = order;

@@ -25,12 +25,21 @@ namespace PG_Тема_11.Infrastructure.EFData_Sql
         public void Save(Courses course)
         {
             if (course == null)
+            {
                 throw new ArgumentNullException(nameof(course));
+            }
 
-            context.Courses.Add(course);
+            if (course.Id == 0)
+            {
+                context.Courses.Add(course);
+            }
+            else
+            {
+                context.Courses.Update(course);
+            }
+
             context.SaveChanges();
         }
-
         public IReadOnlyList<Courses> GetAll()
         {
             return context.Courses.ToList();

@@ -9,6 +9,7 @@ namespace PG_Тема_11.App
 {
     public interface ILessonsRepository
     {
+        Lessons GetById(int id);
         IReadOnlyList<Lessons> GetAll();
         void Save(Lessons lesson);
     }

@@ -9,10 +9,10 @@ namespace PG_Тема_11.App
 {
     public interface IEnrollmentRepository
     {
-        void Save(Enrolments enrollment);
+         void Save(Enrolments enrollment);
         
          IReadOnlyList<Enrolments> GetById(int id);
 
-
+        IReadOnlyList  <Enrolments> GetAll();
     }
 }

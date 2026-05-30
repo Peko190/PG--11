@@ -36,6 +36,20 @@ namespace PG_Тема_11.Infrastructure
             var db = storage.Load();
             return db.Lessons;
         }
+        public Lessons GetById(int id)
+        {
+            var db = storage.Load();
+
+            foreach (var lesson in db.Lessons)
+            {
+                if (lesson.Id == id)
+                {
+                    return lesson;
+                }
+            }
+
+            throw new Exception("Lesson not found");
+        }
 
     }
 }

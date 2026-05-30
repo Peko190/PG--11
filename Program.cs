@@ -1,11 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PG_Тема_11.App;
+using PG_Тема_11.App.Interface;
+using PG_Тема_11.App.Service;
 using PG_Тема_11.Infrastructure;
 using PG_Тема_11.Infrastructure.EFData_Sql;
 using PG_Тема_11.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,6 +18,7 @@ namespace PG_Тема_11
     {
         static void Main(string[] args)
         {
+            Console.OutputEncoding = Encoding.UTF8;
             var options = new DbContextOptionsBuilder<AppDbContext>()
                 .UseSqlServer("Server=desktop-65gmhv2;Database=PGTEMA;Trusted_Connection=True;TrustServerCertificate=True;")
                 .Options;
@@ -26,10 +30,16 @@ namespace PG_Тема_11
 
             ICourseRepository courserepo = new EfCourseRepository(context);
             IEnrollmentRepository enrolrepo = new EfEnrollmentRepository(context);
+            ILessonsRepository lessonsrepo = new EfLessonsRepository(context);
+            IStudentsRepository studentrepo = new EfStudentsRepository(context);
+            ITestsRepository testsRepository = new EfTestsRepository(context);
 
-            var service = new EnrolAndCoursesService(enrolrepo, courserepo);
+            var service1 = new EnrolAndCoursesService(enrolrepo, courserepo,lessonsrepo);
+            var service2 = new LessonsService(lessonsrepo);
+            var service3 = new StudentsService(studentrepo);
+            var service4 = new TestsService(enrolrepo,testsRepository,lessonsrepo);
 
-            var ui = new ConsoleUI(service);
+            var ui = new ConsoleUI(service1,service2,service3,service4);
 
             ui.Run();
         }

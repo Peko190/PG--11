@@ -20,15 +20,18 @@ namespace PG_Тема_11.Domain.Entites
         public Courses Course { get; set; }
         public EnrollmentStatus Status { get; set; }
         public double Progress { get; set; }
+        
+        public DateTime EnrolmentDate { get; set; } 
 
         public Enrolments() { }
-        public Enrolments(int id, int StudentId, int CoursesId, EnrollmentStatus status,double Progres)
+        public Enrolments(int id, int StudentId, int CoursesId, EnrollmentStatus status,double Progres,DateTime enrolmentDate)
         {
             Id = id;
             this.StudentId = StudentId;
             this.CourseId = CoursesId;
             this.Status = status;
             this.Progress = Progres;
+            EnrolmentDate = enrolmentDate;
         }
 
     }

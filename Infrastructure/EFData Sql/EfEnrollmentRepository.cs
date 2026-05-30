@@ -17,12 +17,24 @@ namespace PG_Тема_11.Infrastructure.EFData_Sql
             this.context = context;
         }
 
-        public void Save(Enrolments enrollment)
+        public void Save(Enrolments enrolment)
         {
-            if (enrollment == null)
-                throw new ArgumentNullException(nameof(enrollment));
+            if (enrolment == null)
+            {
+                throw new ArgumentNullException(nameof(enrolment));
+            }
 
-            context.Enrolments.Add(enrollment);
+           
+            if (enrolment.Id == 0)
+            {
+                context.Enrolments.Add(enrolment);
+            }
+            
+            else
+            {
+                context.Enrolments.Update(enrolment);
+            }
+
             context.SaveChanges();
         }
 
@@ -32,5 +44,10 @@ namespace PG_Тема_11.Infrastructure.EFData_Sql
                 .Where(e => e.CourseId == id)
                 .ToList();
         }
+        public IReadOnlyList<Enrolments> GetAll()
+        {
+            return context.Enrolments.ToList();
+        }
+        
     }
 }

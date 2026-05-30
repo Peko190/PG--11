@@ -15,6 +15,7 @@ namespace PG_Тема_11.Infrastructure
 
         public List<Lessons> Lessons { get; set; } = new List<Lessons> ();
         public List<Students> Students { get; set; } = new List<Students>();
+        public List<Tests> Tests { get; set; } = new List<Tests>();
 
     }
 }
