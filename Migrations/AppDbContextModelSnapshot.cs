@@ -107,6 +107,56 @@ namespace PG_Тема_11.Migrations
                     b.ToTable("Lessons");
                 });
 
+            modelBuilder.Entity("PG_Тема_11.Domain.Entites.Progress", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("LessonId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("isCompleted")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LessonId");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("Progress");
+                });
+
+            modelBuilder.Entity("PG_Тема_11.Domain.Entites.StudentTestResults", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<double>("Score")
+                        .HasColumnType("float");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TestId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StudentId");
+
+                    b.HasIndex("TestId");
+
+                    b.ToTable("StudentTestResults");
+                });
+
             modelBuilder.Entity("PG_Тема_11.Domain.Entites.Students", b =>
                 {
                     b.Property<int>("Id")
@@ -134,6 +184,41 @@ namespace PG_Тема_11.Migrations
                     b.ToTable("Students");
                 });
 
+            modelBuilder.Entity("PG_Тема_11.Domain.Entites.TestQuestions", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CorrectAnswer")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(5)")
+                        .HasMaxLength(5);
+
+                    b.Property<string>("OptionA")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OptionB")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OptionC")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("QuestionText")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TestId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TestId");
+
+                    b.ToTable("TestQuestions");
+                });
+
             modelBuilder.Entity("PG_Тема_11.Domain.Entites.Tests", b =>
                 {
                     b.Property<int>("Id")
@@ -153,6 +238,8 @@ namespace PG_Тема_11.Migrations
                         .HasMaxLength(200);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
 
                     b.HasIndex("LessonId");
 
@@ -183,8 +270,54 @@ namespace PG_Тема_11.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("PG_Тема_11.Domain.Entites.Progress", b =>
+                {
+                    b.HasOne("PG_Тема_11.Domain.Entites.Lessons", null)
+                        .WithMany()
+                        .HasForeignKey("LessonId")
+                        .HasConstraintName("FK_Progress_Lessons_LessonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PG_Тема_11.Domain.Entites.Students", null)
+                        .WithMany()
+                        .HasForeignKey("StudentId")
+                        .HasConstraintName("FK_Progress_Students_StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PG_Тема_11.Domain.Entites.StudentTestResults", b =>
+                {
+                    b.HasOne("PG_Тема_11.Domain.Entites.Students", null)
+                        .WithMany()
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PG_Тема_11.Domain.Entites.Tests", null)
+                        .WithMany()
+                        .HasForeignKey("TestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PG_Тема_11.Domain.Entites.TestQuestions", b =>
+                {
+                    b.HasOne("PG_Тема_11.Domain.Entites.Tests", null)
+                        .WithMany()
+                        .HasForeignKey("TestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("PG_Тема_11.Domain.Entites.Tests", b =>
                 {
+                    b.HasOne("PG_Тема_11.Domain.Entites.Courses", null)
+                        .WithMany()
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("PG_Тема_11.Domain.Entites.Lessons", null)
                         .WithMany("Tests")
                         .HasForeignKey("LessonId")

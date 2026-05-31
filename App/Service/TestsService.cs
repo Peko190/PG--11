@@ -14,24 +14,41 @@ namespace PG_Тема_11.App.Service
         private readonly ITestsRepository testrepo;
         private readonly IEnrollmentRepository enrolrepo;
         private readonly ILessonsRepository lessonrepo;
-        public TestsService(IEnrollmentRepository enrolrepo, ITestsRepository testsRepository, ILessonsRepository lessonsrepo)
+        private readonly ITestQuestionsRepository questionrepo;
+        public TestsService(IEnrollmentRepository enrolrepo, ITestsRepository testsRepository, ILessonsRepository lessonsrepo, ITestQuestionsRepository questionrepo    )
         {
             this.testrepo = testsRepository;
             this.enrolrepo = enrolrepo;
             this.lessonrepo = lessonsrepo;
+            this.questionrepo = questionrepo;
         }
-        public void CreateTest(string title, int? lessonId, int? courseId)
+        public void CreateTestWithQuestions(string title, int? lessonId, int? courseId, List<TestQuestions> questions)
         {
             if (string.IsNullOrWhiteSpace(title))
             {
                 throw new Exception("Заглавието на теста не може да бъде празно!");
             }
 
+            
             var newTest = new Tests(0, title, lessonId, courseId);
             testrepo.Save(newTest); 
+
+            if (questions == null || !questions.Any())
+            {
+                throw new Exception("Тестът трябва да има поне един въпрос!");
+            }
+
+            
+            foreach (var question in questions)
+            {
+                question.TestId = newTest.Id; 
+                questionrepo.Save(question);
+            }
+
+            Console.WriteLine($"\n[Система]: Успешно създаден тест '{title}' с {questions.Count} въпроса!");
         }
 
-        
+
         public Tests StartTest(int studentId, int testId)
         {
             

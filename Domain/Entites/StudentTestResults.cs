@@ -6,21 +6,21 @@ using System.Threading.Tasks;
 
 namespace PG_Тема_11.Domain.Entites
 {
-    public class Progress
+    public class StudentTestResults
     {
         public int Id { get; set; }
         public int StudentId { get; set; }
-        public int LessonId { get; set; }
-        public bool isCompleted { get; set; }
+        public int TestId { get; set; }
+        public double Score { get; set; }
 
-        public Progress() { }
+        public StudentTestResults() { }
 
-        public Progress(int id, int studentId, int lessonId)
+        public StudentTestResults(int id, int studentId, int testId, double score)
         {
             Id = id;
             StudentId = studentId;
-            LessonId = lessonId; 
+            TestId = testId;
+            Score = score;
         }
     }
-
 }

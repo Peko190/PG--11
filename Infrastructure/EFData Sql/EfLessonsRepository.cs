@@ -24,7 +24,7 @@ namespace PG_Тема_11.Infrastructure.EFData_Sql
         {
             if (lessons == null)
             {
-                throw new ArgumentNullException(nameof(lessons));
+                throw new ArgumentNullException(nameof(lessons));   
             }
 
             if (lessons.Id == 0)

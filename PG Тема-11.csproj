@@ -248,7 +248,10 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App\Interface\IProgressRepository.cs" />
+    <Compile Include="App\Interface\IStudentsTest.cs" />
     <Compile Include="App\Interface\ITestsRepository.cs" />
+    <Compile Include="App\Interface\ITestQuestionsRepository.cs" />
     <Compile Include="App\Service\EnrolAndCoursesService.cs" />
     <Compile Include="App\Interface\ICourseRepository.cs" />
     <Compile Include="App\Interface\IEnrollmentRepository.cs" />
@@ -256,12 +259,15 @@
     <Compile Include="App\Interface\IStudentsRepository.cs" />
     <Compile Include="App\Service\LessonsService.cs" />
     <Compile Include="App\Service\StudentsService.cs" />
+    <Compile Include="App\Service\StudentsTestsService.cs" />
     <Compile Include="App\Service\TestsService.cs" />
     <Compile Include="Domain\Entites\Courses.cs" />
     <Compile Include="Domain\Entites\Enrolments.cs" />
     <Compile Include="Domain\Entites\Lessons.cs" />
     <Compile Include="Domain\Entites\Progress.cs" />
     <Compile Include="Domain\Entites\Students.cs" />
+    <Compile Include="Domain\Entites\StudentTestResults.cs" />
+    <Compile Include="Domain\Entites\TestQuestions.cs" />
     <Compile Include="Domain\Entites\Tests.cs" />
     <Compile Include="Domain\Enums\EnrollmentStatus.cs" />
     <Compile Include="Domain\Enums\Level.cs" />
@@ -271,15 +277,18 @@
     <Compile Include="Infrastructure\EFData Sql\EfCourseRepository.cs" />
     <Compile Include="Infrastructure\EFData Sql\EfEnrollmentRepository.cs" />
     <Compile Include="Infrastructure\EFData Sql\EfLessonsRepository.cs" />
+    <Compile Include="Infrastructure\EFData Sql\EfProgressRepository.cs" />
     <Compile Include="Infrastructure\EFData Sql\EfStudentsRepository.cs" />
+    <Compile Include="Infrastructure\EFData Sql\EfStudentTestResultsRepository.cs" />
+    <Compile Include="Infrastructure\EFData Sql\EfTestQuestionRepository.cs" />
     <Compile Include="Infrastructure\EFData Sql\EfTestsRepository.cs" />
     <Compile Include="Infrastructure\EnrollmentRepository.cs" />
     <Compile Include="Infrastructure\LessonsRepository.cs" />
     <Compile Include="Infrastructure\Storage.cs" />
     <Compile Include="Infrastructure\StudentsRepository.cs" />
-    <Compile Include="Migrations\20260530141506_Bazata.cs" />
-    <Compile Include="Migrations\20260530141506_Bazata.Designer.cs">
-      <DependentUpon>20260530141506_Bazata.cs</DependentUpon>
+    <Compile Include="Migrations\20260531143725_test.cs" />
+    <Compile Include="Migrations\20260531143725_test.Designer.cs">
+      <DependentUpon>20260531143725_test.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\AppDbContextModelSnapshot.cs" />
     <Compile Include="Program.cs" />

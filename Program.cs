@@ -24,22 +24,31 @@ namespace PG_Тема_11
                 .Options;
             
             var context = new AppDbContext(options);
-            
 
-            context.Database.EnsureCreated();
+
+
+             
+
+        context.Database.EnsureCreated();
 
             ICourseRepository courserepo = new EfCourseRepository(context);
             IEnrollmentRepository enrolrepo = new EfEnrollmentRepository(context);
             ILessonsRepository lessonsrepo = new EfLessonsRepository(context);
             IStudentsRepository studentrepo = new EfStudentsRepository(context);
             ITestsRepository testsRepository = new EfTestsRepository(context);
+            IStudentsTest studentstests = new EfStudentTestResultsRepository(context);
+            ITestQuestionsRepository questionrepo = new EfTestQuestionRepository(context);
+            IProgressRepository progressrepo = new EfProgressRepository(context);
 
-            var service1 = new EnrolAndCoursesService(enrolrepo, courserepo,lessonsrepo);
+
+            var service5 = new StudentsTestsService(studentstests, questionrepo, lessonsrepo, testsRepository);
+            var service1 = new EnrolAndCoursesService(enrolrepo, courserepo, lessonsrepo, service5, progressrepo);
             var service2 = new LessonsService(lessonsrepo);
             var service3 = new StudentsService(studentrepo);
-            var service4 = new TestsService(enrolrepo,testsRepository,lessonsrepo);
+            var service4 = new TestsService(enrolrepo,testsRepository,lessonsrepo,questionrepo);
+           
 
-            var ui = new ConsoleUI(service1,service2,service3,service4);
+            var ui = new ConsoleUI(service1,service2,service3,service4,service5);
 
             ui.Run();
         }
