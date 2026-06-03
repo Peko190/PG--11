@@ -22,7 +22,7 @@ namespace PG_Тема_11.Infrastructure.EFData_Sql
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder.UseSqlServer(
-                    @"Server = (localdb)\MSSQLLocalDB; Database = PGTEMA; Trusted_Connection = True; TrustServerCertificate = True; "
+                    @"Server=82.137.73.40,1433;Database=SchoolProject;User ID=sa;Password=144g144gG@;Encrypt=True;TrustServerCertificate=True"
 );
             }
             

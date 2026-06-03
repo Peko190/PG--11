@@ -55,8 +55,7 @@
       <HintPath>packages\Microsoft.Bcl.TimeProvider.8.0.1\lib\net462\Microsoft.Bcl.TimeProvider.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Data.SqlClient, Version=3.0.0.0, Culture=neutral, PublicKeyToken=23ec7fc2d6eaa4a5, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.Data.SqlClient.3.1.1\lib\net461\Microsoft.Data.SqlClient.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>packages\Microsoft.Data.SqlClient.3.0.1\lib\net461\Microsoft.Data.SqlClient.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Data.SqlClient.Extensions.Abstractions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=23ec7fc2d6eaa4a5, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Data.SqlClient.Extensions.Abstractions.1.0.0\lib\netstandard2.0\Microsoft.Data.SqlClient.Extensions.Abstractions.dll</HintPath>
@@ -326,6 +325,10 @@
     <Compile Include="Migrations\20260531143725_test.cs" />
     <Compile Include="Migrations\20260531143725_test.Designer.cs">
       <DependentUpon>20260531143725_test.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20260603205517_innit.cs" />
+    <Compile Include="Migrations\20260603205517_innit.Designer.cs">
+      <DependentUpon>20260603205517_innit.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\AppDbContextModelSnapshot.cs" />
     <Compile Include="Program.cs" />

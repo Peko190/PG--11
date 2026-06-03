@@ -20,17 +20,16 @@ namespace PG_Тема_11
         {
             Console.OutputEncoding = Encoding.UTF8;
             var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Database=PGTEMA;Trusted_Connection=True;TrustServerCertificate=True;"
-)
-                .Options;
-            
+    .UseSqlServer("Server=82.137.73.40,1433;Database=SchoolProject;User ID=sa;Password=144g144gG@;Encrypt=True;TrustServerCertificate=True")
+    .EnableSensitiveDataLogging()
+    .Options;
+
             var context = new AppDbContext(options);
 
 
 
              
 
-        context.Database.EnsureCreated();
 
             ICourseRepository courserepo = new EfCourseRepository(context);
             IEnrollmentRepository enrolrepo = new EfEnrollmentRepository(context);
