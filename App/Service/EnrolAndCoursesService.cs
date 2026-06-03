@@ -16,12 +16,13 @@ namespace PG_Тема_11.App
         private readonly IProgressRepository progressRepo;
         private readonly StudentsTestsService studentsTestsService;
 
+
         public EnrolAndCoursesService(
- IEnrollmentRepository enrolrepo,
- ICourseRepository courserepo,
- ILessonsRepository lessonrepo,
- StudentsTestsService studentsTestsService, 
- IProgressRepository progressRepo)
+        IEnrollmentRepository enrolrepo,
+        ICourseRepository courserepo,
+        ILessonsRepository lessonrepo,
+        StudentsTestsService studentsTestsService, 
+        IProgressRepository progressRepo)
         {
             this.enrolrepo = enrolrepo;
             this.courserepo = courserepo;
@@ -222,7 +223,49 @@ namespace PG_Тема_11.App
 
         public void GenerateCoursesSuccessReport(DateTime startDate, DateTime endDate)
         {
-            
+            var courses = courserepo.GetAll();
+
+            var report = courses
+                .Select(course =>
+                {
+                    var enrolments = enrolrepo.GetAll()
+                        .Where(e =>
+                            e.CourseId == course.Id &&
+                            e.EnrolmentDate >= startDate &&
+                            e.EnrolmentDate <= endDate)
+                        .ToList();
+
+                    if (!enrolments.Any())
+                    {
+                        return new
+                        {
+                            CourseName = course.Title,
+                            AverageSuccess = 0.0
+                        };
+                    }
+
+                    double averageSuccess =
+                        enrolments.Average(e =>
+                            studentsTestsService.CalculateCourseSuccessRate(
+                                e.StudentId,
+                                course.Id));
+
+                    return new
+                    {
+                        CourseName = course.Title,
+                        AverageSuccess = averageSuccess
+                    };
+                })
+                .OrderByDescending(x => x.AverageSuccess)
+                .ToList();
+
+            Console.WriteLine("\n===== КУРСОВЕ С НАЙ-ВИСОКА УСПЕВАЕМОСТ =====");
+
+            foreach (var item in report)
+            {
+                Console.WriteLine(
+                    $"{item.CourseName} -> {item.AverageSuccess:F2}%");
+            }
         }
     }
 }

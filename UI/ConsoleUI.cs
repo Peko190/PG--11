@@ -116,7 +116,7 @@ namespace PG_Тема_11.UI
                         GenerateStudentsReportUI();
                         break;
                     case 18:
-                        //GenerateCourseSuccessReportUI();
+                        GenerateCourseSuccessReportUI();
                         break;
                     case 20:
                         running = false;
@@ -614,6 +614,28 @@ namespace PG_Тема_11.UI
                 Console.WriteLine(ex.Message);
             }
 
+        }
+
+        //18
+
+        public void GenerateCourseSuccessReportUI()
+        {
+            try
+            {
+                Console.Write("Начална дата (dd.MM.yyyy): ");
+                DateTime startDate = DateTime.Parse(Console.ReadLine());
+
+                Console.Write("Крайна дата (dd.MM.yyyy): ");
+                DateTime endDate = DateTime.Parse(Console.ReadLine());
+
+                enrolAndCoursesService.GenerateCoursesSuccessReport(
+                    startDate,
+                    endDate);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
     }
 }

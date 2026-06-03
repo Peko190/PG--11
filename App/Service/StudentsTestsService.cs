@@ -103,6 +103,9 @@ namespace PG_Тема_11.App.Service
             return studentScores.Average();
         }
 
-
+        public IReadOnlyList<StudentTestResults> GetAllResults()
+        {
+            return testResultRepo.GetAll();
+        }
     }
 }
