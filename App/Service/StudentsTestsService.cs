@@ -102,5 +102,7 @@ namespace PG_Тема_11.App.Service
 
             return studentScores.Average();
         }
+
+
     }
 }

@@ -219,5 +219,10 @@ namespace PG_Тема_11.App
 
             return enrolments;
         }
+
+        public void GenerateCoursesSuccessReport(DateTime startDate, DateTime endDate)
+        {
+            
+        }
     }
 }

@@ -55,7 +55,7 @@ namespace PG_Тема_11.UI
                 Console.WriteLine("15:GenerateCertificateUI() 📜");
                 Console.WriteLine("16:Active courses📜");
                 Console.WriteLine("17:Report for students in course");
-                Console.WriteLine("18");
+                Console.WriteLine("18:Report courses with highest success rate");
                 Console.WriteLine("19");
                 Console.WriteLine("20:End");
 
@@ -114,6 +114,9 @@ namespace PG_Тема_11.UI
                         break;
                     case 17:
                         GenerateStudentsReportUI();
+                        break;
+                    case 18:
+                        //GenerateCourseSuccessReportUI();
                         break;
                     case 20:
                         running = false;
