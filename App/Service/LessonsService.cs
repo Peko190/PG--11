@@ -39,6 +39,7 @@ namespace PG_Тема_11.App
             lesson.Content = content;
             lessonRepo.Save(lesson);
            
+
         }
     }
 }
