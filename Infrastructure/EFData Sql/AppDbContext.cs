@@ -22,7 +22,8 @@ namespace PG_Тема_11.Infrastructure.EFData_Sql
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder.UseSqlServer(
-                    "Server=desktop-65gmhv2;Database=PGTEMA;Trusted_Connection=True;TrustServerCertificate=True;");
+                    @"Server = (localdb)\MSSQLLocalDB; Database = PGTEMA; Trusted_Connection = True; TrustServerCertificate = True; "
+);
             }
             
         }

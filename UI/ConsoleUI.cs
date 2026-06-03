@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+
 namespace PG_Тема_11.UI
 {
     public class ConsoleUI
@@ -53,7 +54,7 @@ namespace PG_Тема_11.UI
                 Console.WriteLine("14:CheckIfCourseIsCompletedUI() 🎓");
                 Console.WriteLine("15:GenerateCertificateUI() 📜");
                 Console.WriteLine("16:Active courses📜");
-                Console.WriteLine("17");
+                Console.WriteLine("17:Report for students in course");
                 Console.WriteLine("18");
                 Console.WriteLine("19");
                 Console.WriteLine("20:End");
@@ -110,6 +111,9 @@ namespace PG_Тема_11.UI
                         break;
                     case 16:
                         ViewActiveCoursesForStudentUI(enrolAndCoursesService);
+                        break;
+                    case 17:
+                        GenerateStudentsReportUI();
                         break;
                     case 20:
                         running = false;
@@ -542,7 +546,7 @@ namespace PG_Тема_11.UI
         }
         static void ViewActiveCoursesForStudentUI(EnrolAndCoursesService enrolAndCoursesService)
         {
-            Console.WriteLine("\n=== ПРЕГЛЕД НА АКТИВНИ КУРСОВЕ ЗА ОБУЧАЕМ ===");
+            Console.WriteLine("\n=== 16. ПРЕГЛЕД НА АКТИВНИ КУРСОВЕ ЗА ОБУЧАЕМ ===");
             Console.Write("Въведете ID на обучаемия: ");
 
             if (!int.TryParse(Console.ReadLine(), out int studentId))
@@ -573,6 +577,40 @@ namespace PG_Тема_11.UI
             {
                 Console.WriteLine($"Грешка: {ex.Message}");
             }
+
+            
+
+            
+        }
+
+        //16
+
+        public void GenerateStudentsReportUI()
+        {
+            try
+            {
+                Console.WriteLine("Въведете ID на курс: ");
+                int courseId = int.Parse(Console.ReadLine());
+
+                var enrolments = enrolAndCoursesService.GetStudentsInCourse(courseId);
+
+                Console.WriteLine("\n ===== СПРАВКА ЗА ОБУЧАЕМИ =====");
+
+                foreach (var enrolment in enrolments)
+                {
+                    Console.WriteLine(
+                    $"ID: {enrolment.Student.Id} | " +
+                    $"{enrolment.Student.FirstName} {enrolment.Student.LastName} | " +
+                    $"Email: {enrolment.Student.Email} | " +
+                    $"Статус: {enrolment.Status} | " +
+                    $"Прогрес: {enrolment.Progress:F2}%");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
         }
     }
 }

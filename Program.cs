@@ -20,7 +20,8 @@ namespace PG_Тема_11
         {
             Console.OutputEncoding = Encoding.UTF8;
             var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseSqlServer("Server=desktop-65gmhv2;Database=PGTEMA;Trusted_Connection=True;TrustServerCertificate=True;")
+                .UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Database=PGTEMA;Trusted_Connection=True;TrustServerCertificate=True;"
+)
                 .Options;
             
             var context = new AppDbContext(options);

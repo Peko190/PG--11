@@ -207,5 +207,17 @@ namespace PG_Тема_11.App
 
             return activeCourses;
         }
+
+        public IReadOnlyList<Enrolments> GetStudentsInCourse(int courseId)
+        {
+            var enrolments = enrolrepo.GetById(courseId);
+
+            if (enrolments == null || !enrolments.Any())
+            {
+                throw new Exception("Няма записани обучаеми в този курс!");
+            }
+
+            return enrolments;
+        }
     }
 }
