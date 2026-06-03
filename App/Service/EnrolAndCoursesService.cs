@@ -272,9 +272,34 @@ namespace PG_Тема_11.App
 
         public void GenerateMostPopularCoursesReport(DateTime startDate, DateTime endDate)
         {
+            var report = courserepo.GetAll()
+
+                .Select(course =>
+                {
+                    var enrolmentsCount = enrolrepo.GetAll()
+                        .Count(e =>
+                            e.CourseId == course.Id &&
+                            e.EnrolmentDate >= startDate &&
+                            e.EnrolmentDate <= endDate);
+
+                    return new
+                    {
+
+                        CourseName = course.Title,
+                        EnrolmentsCount = enrolmentsCount
+                    };
+                })
+                .OrderByDescending(x => x.EnrolmentsCount)
+                .ToList();
+            Console.WriteLine("\n===== НАЙ-ПОПУЛЯРНИ КУРСОВЕ =====");
+
+            foreach (var item in report)
+            {
+                Console.WriteLine(
+                    $"{item.CourseName} -> {item.EnrolmentsCount} записани обучаеми");
+            }
 
 
-            
         }
     }
 }
