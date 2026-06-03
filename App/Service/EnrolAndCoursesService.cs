@@ -267,5 +267,14 @@ namespace PG_Тема_11.App
                     $"{item.CourseName} -> {item.AverageSuccess:F2}%");
             }
         }
+
+        //19
+
+        public void GenerateMostPopularCoursesReport(DateTime startDate, DateTime endDate)
+        {
+
+
+            
+        }
     }
 }
