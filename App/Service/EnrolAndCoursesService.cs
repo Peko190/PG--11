@@ -301,5 +301,36 @@ namespace PG_Тема_11.App
 
 
         }
+
+        //20
+        public void GenerateStudentHistoryReport(int studentId)
+        {
+            var enrolments = enrolrepo.GetAll()
+                .Where(e => e.StudentId == studentId)
+                .ToList();
+
+            if (!enrolments.Any())
+            {
+                throw new Exception("Няма намерени обучения за този обучаем!");
+            }
+
+            Console.WriteLine("\n===== ИСТОРИЯ НА ОБУЧЕНИЯТА =====");
+
+            foreach (var enrolment in enrolments)
+            {
+                var course = courserepo.GetById(enrolment.CourseId);
+
+                double successRate = studentsTestsService
+                    .CalculateCourseSuccessRate(studentId, enrolment.CourseId);
+
+                Console.WriteLine(
+                    $"Курс: {course.Title}\n" +
+                    $"Статус: {enrolment.Status}\n" +
+                    $"Прогрес: {enrolment.Progress:F2}%\n" +
+                    $"Успеваемост: {successRate:F2}%\n" +
+                    $"Дата на записване: {enrolment.EnrolmentDate:dd.MM.yyyy}\n");
+            }
+        }
+
     }
 }

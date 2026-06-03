@@ -56,7 +56,7 @@ namespace PG_Тема_11.UI
                 Console.WriteLine("16:Active courses📜");
                 Console.WriteLine("17:Report for students in course");
                 Console.WriteLine("18:Report courses with highest success rate");
-                Console.WriteLine("19");
+                Console.WriteLine("19:Student training history");
                 Console.WriteLine("20:End");
 
                 Console.Write("Choose: ");
@@ -119,7 +119,7 @@ namespace PG_Тема_11.UI
                         GenerateCourseSuccessReportUI();
                         break;
                     case 20:
-                        running = false;
+                        GenerateStudentHistoryReportUI();
                         break;
                 }
             }
@@ -631,6 +631,21 @@ namespace PG_Тема_11.UI
                 enrolAndCoursesService.GenerateCoursesSuccessReport(
                     startDate,
                     endDate);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        public void GenerateStudentHistoryReportUI()
+        {
+            try
+            {
+                Console.Write("Въведете idto на обучаем: ");
+                int studentId = int.Parse(Console.ReadLine());
+
+                enrolAndCoursesService.GenerateStudentHistoryReport(studentId);
             }
             catch (Exception ex)
             {
