@@ -56,8 +56,9 @@ namespace PG_Тема_11.UI
                 Console.WriteLine("16:Active courses📜");
                 Console.WriteLine("17:Report for students in course");
                 Console.WriteLine("18:Report courses with highest success rate");
-                Console.WriteLine("19:Student training history");
-                Console.WriteLine("20:End");
+                Console.WriteLine("19:Report most popular courses for period");
+                Console.WriteLine("20:Student training history");
+                Console.WriteLine("0:Exit");
 
                 Console.Write("Choose: ");
                 int input = int.Parse(Console.ReadLine());
@@ -118,8 +119,14 @@ namespace PG_Тема_11.UI
                     case 18:
                         GenerateCourseSuccessReportUI();
                         break;
+                    case 19:
+                        GenerateMostPopularCoursesReportUI();
+                        break;
                     case 20:
                         GenerateStudentHistoryReportUI();
+                        break;
+                    case 0:
+                        running = false;
                         break;
                 }
             }
@@ -593,7 +600,13 @@ namespace PG_Тема_11.UI
             try
             {
                 Console.WriteLine("Въведете ID на курс: ");
-                int courseId = int.Parse(Console.ReadLine());
+                string input = Console.ReadLine();
+
+                if (!int.TryParse(input, out int courseId) || courseId <= 0)
+                {
+                    Console.WriteLine("Невалидно ID! Моля въведете положително цяло число.");
+                    return;
+                }
 
                 var enrolments = enrolAndCoursesService.GetStudentsInCourse(courseId);
 

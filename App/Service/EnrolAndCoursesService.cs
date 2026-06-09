@@ -211,6 +211,18 @@ namespace PG_Тема_11.App
 
         public IReadOnlyList<Enrolments> GetStudentsInCourse(int courseId)
         {
+            if (courseId <= 0)
+            {
+                throw new Exception("Невалидно ID на курс!");
+            }
+
+            var course = courserepo.GetById(courseId);
+
+            if (course == null)
+            {
+                throw new Exception("Курсът не съществува!");
+            }
+
             var enrolments = enrolrepo.GetById(courseId);
 
             if (enrolments == null || !enrolments.Any())
@@ -223,7 +235,27 @@ namespace PG_Тема_11.App
 
         public void GenerateCoursesSuccessReport(DateTime startDate, DateTime endDate)
         {
+            if (startDate == default || endDate == default)
+            {
+                throw new Exception("Невалидна дата! Моля въведете валидни дати.");
+            }
+
+            if (startDate > endDate)
+            {
+                throw new Exception("Началната дата не може да е след крайната дата!");
+            }
+
+            if (endDate > DateTime.Now)
+            {
+                throw new Exception("Крайната дата не може да е в бъдещето!");
+            }
+
             var courses = courserepo.GetAll();
+
+            if (!courses.Any())
+            {
+                throw new Exception("Няма налични курсове в системата!");
+            }
 
             var report = courses
                 .Select(course =>
@@ -272,7 +304,30 @@ namespace PG_Тема_11.App
 
         public void GenerateMostPopularCoursesReport(DateTime startDate, DateTime endDate)
         {
+            if (startDate == default || endDate == default)
+            {
+                throw new Exception("Невалидна дата! Моля въведете валидни дати.");
+            }
+
+            if (startDate > endDate)
+            {
+                throw new Exception("Началната дата не може да е след крайната дата!");
+            }
+
+            if (endDate > DateTime.Now)
+            {
+                throw new Exception("Крайната дата не може да е в бъдещето!");
+            }
+
+            var allCourses = courserepo.GetAll();
+
+            if (!allCourses.Any())
+            {
+                throw new Exception("Няма налични курсове в системата!");
+            }
+
             var report = courserepo.GetAll()
+
 
                 .Select(course =>
                 {
@@ -281,6 +336,8 @@ namespace PG_Тема_11.App
                             e.CourseId == course.Id &&
                             e.EnrolmentDate >= startDate &&
                             e.EnrolmentDate <= endDate);
+
+
 
                     return new
                     {
@@ -305,24 +362,29 @@ namespace PG_Тема_11.App
         //20
         public void GenerateStudentHistoryReport(int studentId)
         {
+            if (studentId <= 0)
+            {
+                throw new Exception("Невалидно ID на обучаем! IDto трябва да е положително число.");
+            }
+ 
             var enrolments = enrolrepo.GetAll()
                 .Where(e => e.StudentId == studentId)
                 .ToList();
-
+ 
             if (!enrolments.Any())
             {
                 throw new Exception("Няма намерени обучения за този обучаем!");
             }
-
+ 
             Console.WriteLine("\n===== ИСТОРИЯ НА ОБУЧЕНИЯТА =====");
-
+ 
             foreach (var enrolment in enrolments)
             {
                 var course = courserepo.GetById(enrolment.CourseId);
-
+ 
                 double successRate = studentsTestsService
                     .CalculateCourseSuccessRate(studentId, enrolment.CourseId);
-
+ 
                 Console.WriteLine(
                     $"Курс: {course.Title}\n" +
                     $"Статус: {enrolment.Status}\n" +
