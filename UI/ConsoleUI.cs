@@ -105,10 +105,10 @@ namespace PG_Тема_11.UI
                         ViewCourseSuccessRateUI();
                         break;
                     case 14:
-                        CheckIfCourseIsCompletedUI(); 
+                        CheckIfCourseIsCompletedUI();
                         break;
                     case 15:
-                        GenerateCertificateUI();     
+                        GenerateCertificateUI();
                         break;
                     case 16:
                         ViewActiveCoursesForStudentUI(enrolAndCoursesService);
@@ -139,15 +139,15 @@ namespace PG_Тема_11.UI
             Console.WriteLine("Enter Description");
             string description = Console.ReadLine();
             Console.WriteLine("Choose Level");
-            Console.WriteLine("1 - Beginner");
-            Console.WriteLine("2 - Intermediate");
-            Console.WriteLine("3 - Advanced");
+            Console.WriteLine("0 - Beginner");
+            Console.WriteLine("1 - Intermediate");
+            Console.WriteLine("2 - Advanced");
             int level = int.Parse(Console.ReadLine());
             var courselevel = (Level)level;
 
             try
             {
-                enrolAndCoursesService.CreateCourse(Title, description, courselevel - 1);
+                enrolAndCoursesService.CreateCourse(Title, description, courselevel);
                 Console.WriteLine("Course Created");
             }
             catch (Exception ex)
@@ -588,10 +588,13 @@ namespace PG_Тема_11.UI
                 Console.WriteLine($"Грешка: {ex.Message}");
             }
 
-            
 
-            
+
+
         }
+
+
+
 
         //17
 
@@ -631,19 +634,35 @@ namespace PG_Тема_11.UI
 
         //18
 
+
+
         public void GenerateCourseSuccessReportUI()
         {
             try
             {
                 Console.Write("Начална дата (dd.MM.yyyy): ");
-                DateTime startDate = DateTime.Parse(Console.ReadLine());
+                string startInput = Console.ReadLine();
 
                 Console.Write("Крайна дата (dd.MM.yyyy): ");
-                DateTime endDate = DateTime.Parse(Console.ReadLine());
+                string endInput = Console.ReadLine();
 
-                enrolAndCoursesService.GenerateCoursesSuccessReport(
-                    startDate,
-                    endDate);
+                if (!DateTime.TryParseExact(startInput, "dd.MM.yyyy",
+                    System.Globalization.CultureInfo.InvariantCulture,
+                    System.Globalization.DateTimeStyles.None, out DateTime startDate))
+                {
+                    Console.WriteLine("Невалиден формат за начална дата! Използвайте dd.MM.yyyy");
+                    return;
+                }
+
+                if (!DateTime.TryParseExact(endInput, "dd.MM.yyyy",
+                    System.Globalization.CultureInfo.InvariantCulture,
+                    System.Globalization.DateTimeStyles.None, out DateTime endDate))
+                {
+                    Console.WriteLine("Невалиден формат за крайна дата! Използвайте dd.MM.yyyy");
+                    return;
+                }
+
+                enrolAndCoursesService.GenerateCoursesSuccessReport(startDate, endDate);
             }
             catch (Exception ex)
             {
@@ -651,12 +670,54 @@ namespace PG_Тема_11.UI
             }
         }
 
+        //19
+        public void GenerateMostPopularCoursesReportUI()
+        {
+            try
+            {
+                Console.Write("Начална дата (dd.MM.yyyy): ");
+                string startInput = Console.ReadLine();
+
+                Console.Write("Крайна дата (dd.MM.yyyy): ");
+                string endInput = Console.ReadLine();
+
+                if (!DateTime.TryParseExact(startInput, "dd.MM.yyyy",
+                    System.Globalization.CultureInfo.InvariantCulture,
+                    System.Globalization.DateTimeStyles.None, out DateTime startDate))
+                {
+                    Console.WriteLine("Невалиден формат за начална дата! Използвайте dd.MM.yyyy");
+                    return;
+                }
+
+                if (!DateTime.TryParseExact(endInput, "dd.MM.yyyy",
+                    System.Globalization.CultureInfo.InvariantCulture,
+                    System.Globalization.DateTimeStyles.None, out DateTime endDate))
+                {
+                    Console.WriteLine("Невалиден формат за крайна дата! Използвайте dd.MM.yyyy");
+                    return;
+                }
+
+                enrolAndCoursesService.GenerateMostPopularCoursesReport(startDate, endDate);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        //20
         public void GenerateStudentHistoryReportUI()
         {
             try
             {
                 Console.Write("Въведете idto на обучаем: ");
-                int studentId = int.Parse(Console.ReadLine());
+                string input = Console.ReadLine();
+
+                if (!int.TryParse(input, out int studentId) || studentId <= 0)
+                {
+                    Console.WriteLine("Невалидно ID! Моля въведете положително цяло число.");
+                    return;
+                }
 
                 enrolAndCoursesService.GenerateStudentHistoryReport(studentId);
             }

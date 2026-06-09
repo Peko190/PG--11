@@ -9,7 +9,7 @@ namespace PG_Тема_11.Domain.Entites
 {
     public class Courses
     {
-        public int Id { get; private set; }
+        public int Id { get; set; }
         public string Title { get;  set; }
         public string Description { get;  set; }
         public  Level level { get;  set; }
