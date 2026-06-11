@@ -135,59 +135,96 @@ namespace PG_Тема_11.UI
         public void CreateCourse()
         {
             Console.WriteLine("Course Title");
-            string Title = Console.ReadLine();
+            string title = Console.ReadLine();
+
+            if (string.IsNullOrWhiteSpace(title))
+            {
+                Console.WriteLine("Title cannot be empty!");
+                return;
+            }
+
             Console.WriteLine("Enter Description");
             string description = Console.ReadLine();
+
+            if (string.IsNullOrWhiteSpace(description))
+            {
+                Console.WriteLine("Description cannot be empty!");
+                return;
+            }
+
             Console.WriteLine("Choose Level");
             Console.WriteLine("0 - Beginner");
             Console.WriteLine("1 - Intermediate");
             Console.WriteLine("2 - Advanced");
-            int level = int.Parse(Console.ReadLine());
+
+            if (!int.TryParse(Console.ReadLine(), out int level) ||
+                level < 0 || level > 2)
+            {
+                Console.WriteLine("Invalid level!");
+                return;
+            }
+
             var courselevel = (Level)level;
 
             try
             {
-                enrolAndCoursesService.CreateCourse(Title, description, courselevel);
+                enrolAndCoursesService.CreateCourse(title, description, courselevel);
                 Console.WriteLine("Course Created");
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
+
             Console.ReadLine();
         }
 
         public void EditCourse()
         {
             Console.WriteLine("Choose course to edit by id");
-            int id = int.Parse(Console.ReadLine());
-            Console.WriteLine(" Edit Course Title");
+
+            if (!int.TryParse(Console.ReadLine(), out int id) || id <= 0)
+            {
+                Console.WriteLine("Невалидно ID! Моля въведете положително цяло число.");
+                return;
+            }
+
+            Console.WriteLine("Edit Course Title");
             string title = Console.ReadLine();
+
+            if (string.IsNullOrWhiteSpace(title))
+            {
+                Console.WriteLine("Заглавието не може да е празно!");
+                return;
+            }
+
             Console.WriteLine("Edit Description");
             string description = Console.ReadLine();
-            Console.WriteLine("Edit Level");
 
+            if (string.IsNullOrWhiteSpace(description))
+            {
+                Console.WriteLine("Описанието не може да е празно!");
+                return;
+            }
+
+            Console.WriteLine("Edit Level");
             Console.WriteLine("1 - Beginner");
             Console.WriteLine("2 - Intermediate");
             Console.WriteLine("3 - Advanced");
 
-            int levelChoice = int.Parse(Console.ReadLine());
-            Level courselevel;
+            if (!int.TryParse(Console.ReadLine(), out int levelChoice) || levelChoice < 1 || levelChoice > 3)
+            {
+                Console.WriteLine("Невалиден избор на ниво! Моля въведете 1, 2 или 3.");
+                return;
+            }
 
+            Level courselevel;
             switch (levelChoice)
             {
-                case 1:
-                    courselevel = Level.Beginner;
-                    break;
-                case 2:
-                    courselevel = Level.Intermediate;
-                    break;
-                case 3:
-                    courselevel = Level.Advanced;
-                    break;
-                default:
-                    courselevel = Level.Beginner;
-                    break;
+                case 1: courselevel = Level.Beginner; break;
+                case 2: courselevel = Level.Intermediate; break;
+                case 3: courselevel = Level.Advanced; break;
+                default: courselevel = Level.Beginner; break;
             }
 
             try
@@ -204,15 +241,34 @@ namespace PG_Тема_11.UI
         public void AddLesson()
         {
             Console.WriteLine("Lesson Title");
-            string Title = Console.ReadLine();
-            Console.WriteLine("Enter Content ");
+            string title = Console.ReadLine();
+
+            if (string.IsNullOrWhiteSpace(title))
+            {
+                Console.WriteLine("Заглавието не може да е празно!");
+                return;
+            }
+
+            Console.WriteLine("Enter Content");
             string content = Console.ReadLine();
-            Console.WriteLine("Enter courseid ");
-            int courseId = int.Parse(Console.ReadLine());
+
+            if (string.IsNullOrWhiteSpace(content))
+            {
+                Console.WriteLine("Съдържанието не може да е празно!");
+                return;
+            }
+
+            Console.WriteLine("Enter CourseID");
+
+            if (!int.TryParse(Console.ReadLine(), out int courseId) || courseId <= 0)
+            {
+                Console.WriteLine("Невалидно ID на курс! Моля въведете положително цяло число.");
+                return;
+            }
 
             try
             {
-                lessonsService.AddLessons(Title, content, courseId);
+                lessonsService.AddLessons(title, content, courseId);
                 Console.WriteLine("Lesson Created");
             }
             catch (Exception ex)
@@ -224,11 +280,30 @@ namespace PG_Тема_11.UI
         public void EditLesson()
         {
             Console.WriteLine("Choose Lesson to edit by id");
-            int id = int.Parse(Console.ReadLine());
-            Console.WriteLine(" Edit Lesson Title");
+
+            if (!int.TryParse(Console.ReadLine(), out int id) || id <= 0)
+            {
+                Console.WriteLine("Невалидно ID! Моля въведете положително цяло число.");
+                return;
+            }
+
+            Console.WriteLine("Edit Lesson Title");
             string title = Console.ReadLine();
+
+            if (string.IsNullOrWhiteSpace(title))
+            {
+                Console.WriteLine("Заглавието не може да е празно!");
+                return;
+            }
+
             Console.WriteLine("Edit Content");
             string content = Console.ReadLine();
+
+            if (string.IsNullOrWhiteSpace(content))
+            {
+                Console.WriteLine("Съдържанието не може да е празно!");
+                return;
+            }
 
             try
             {
@@ -246,10 +321,29 @@ namespace PG_Тема_11.UI
             Console.WriteLine("Enter FirstName");
             string firstname = Console.ReadLine();
 
+            if (string.IsNullOrWhiteSpace(firstname))
+            {
+                Console.WriteLine("Името не може да е празно!");
+                return;
+            }
+
             Console.WriteLine("Enter LastName");
             string lastname = Console.ReadLine();
+
+            if (string.IsNullOrWhiteSpace(lastname))
+            {
+                Console.WriteLine("Фамилията не може да е празна!");
+                return;
+            }
+
             Console.WriteLine("Enter email");
             string email = Console.ReadLine();
+
+            if (string.IsNullOrWhiteSpace(email) || !email.Contains("@"))
+            {
+                Console.WriteLine("Невалиден email адрес!");
+                return;
+            }
 
             try
             {
@@ -265,10 +359,20 @@ namespace PG_Тема_11.UI
         public void EnrolStudentUI()
         {
             Console.WriteLine("Въведете ID на обучаемия:");
-            int studentId = int.Parse(Console.ReadLine());
+
+            if (!int.TryParse(Console.ReadLine(), out int studentId) || studentId <= 0)
+            {
+                Console.WriteLine("Невалидно ID на обучаем! Моля въведете положително цяло число.");
+                return;
+            }
 
             Console.WriteLine("Въведете ID на курса:");
-            int courseId = int.Parse(Console.ReadLine());
+
+            if (!int.TryParse(Console.ReadLine(), out int courseId) || courseId <= 0)
+            {
+                Console.WriteLine("Невалидно ID на курс! Моля въведете положително цяло число.");
+                return;
+            }
 
             try
             {
@@ -284,10 +388,20 @@ namespace PG_Тема_11.UI
         public void UnenrolStudentUI()
         {
             Console.WriteLine("Въведете ID на обучаемия за отписване:");
-            int studentId = int.Parse(Console.ReadLine());
+
+            if (!int.TryParse(Console.ReadLine(), out int studentId) || studentId <= 0)
+            {
+                Console.WriteLine("Невалидно ID на обучаем! Моля въведете положително цяло число.");
+                return;
+            }
 
             Console.WriteLine("Въведете ID на курса:");
-            int courseId = int.Parse(Console.ReadLine());
+
+            if (!int.TryParse(Console.ReadLine(), out int courseId) || courseId <= 0)
+            {
+                Console.WriteLine("Невалидно ID на курс! Моля въведете положително цяло число.");
+                return;
+            }
 
             try
             {
@@ -303,10 +417,20 @@ namespace PG_Тема_11.UI
         public void ViewProgressUI()
         {
             Console.WriteLine("Въведете ID на обучаемия:");
-            int studentId = int.Parse(Console.ReadLine());
+
+            if (!int.TryParse(Console.ReadLine(), out int studentId) || studentId <= 0)
+            {
+                Console.WriteLine("Невалидно ID на обучаем! Моля въведете положително цяло число.");
+                return;
+            }
 
             Console.WriteLine("Въведете ID на курса:");
-            int courseId = int.Parse(Console.ReadLine());
+
+            if (!int.TryParse(Console.ReadLine(), out int courseId) || courseId <= 0)
+            {
+                Console.WriteLine("Невалидно ID на курс! Моля въведете положително цяло число.");
+                return;
+            }
 
             try
             {
@@ -324,27 +448,32 @@ namespace PG_Тема_11.UI
         public void CompleteLessonUI()
         {
             Console.WriteLine("Въведете ID на обучаемия:");
-            int studentId = int.Parse(Console.ReadLine());
+
+            if (!int.TryParse(Console.ReadLine(), out int studentId) || studentId <= 0)
+            {
+                Console.WriteLine("Невалидно ID на обучаем! Моля въведете положително цяло число.");
+                return;
+            }
 
             Console.WriteLine("Въведете ID на завършения урок:");
-            int lessonId = int.Parse(Console.ReadLine());
+
+            if (!int.TryParse(Console.ReadLine(), out int lessonId) || lessonId <= 0)
+            {
+                Console.WriteLine("Невалидно ID на урок! Моля въведете положително цяло число.");
+                return;
+            }
 
             try
             {
-
                 enrolAndCoursesService.MarkLessonAsCompleted(studentId, lessonId);
                 Console.WriteLine("Урокът беше отбелязан като завършен успешно! Прогресът е обновен.");
             }
             catch (Exception ex)
             {
                 if (ex.InnerException != null)
-                {
                     Console.WriteLine($"Грешка от базата данни: {ex.InnerException.Message}");
-                }
                 else
-                {
                     Console.WriteLine($"Грешка: {ex.Message}");
-                }
             }
         }
 
@@ -354,8 +483,19 @@ namespace PG_Тема_11.UI
             Console.Write("Въведете заглавие на теста: ");
             string title = Console.ReadLine();
 
+            if (string.IsNullOrWhiteSpace(title))
+            {
+                Console.WriteLine("Заглавието не може да е празно!");
+                return;
+            }
+
             Console.WriteLine("Към какво е тестът? (1 - Към конкретен урок, 2 - Към целия курс):");
-            int choice = int.Parse(Console.ReadLine());
+
+            if (!int.TryParse(Console.ReadLine(), out int choice) || (choice != 1 && choice != 2))
+            {
+                Console.WriteLine("Невалиден избор! Моля въведете 1 или 2.");
+                return;
+            }
 
             int? lessonId = null;
             int? courseId = null;
@@ -363,16 +503,31 @@ namespace PG_Тема_11.UI
             if (choice == 1)
             {
                 Console.Write("Въведете ID на урока: ");
-                lessonId = int.Parse(Console.ReadLine());
+                if (!int.TryParse(Console.ReadLine(), out int lid) || lid <= 0)
+                {
+                    Console.WriteLine("Невалидно ID на урок!");
+                    return;
+                }
+                lessonId = lid;
             }
             else
             {
                 Console.Write("Въведете ID на курса: ");
-                courseId = int.Parse(Console.ReadLine());
+                if (!int.TryParse(Console.ReadLine(), out int cid) || cid <= 0)
+                {
+                    Console.WriteLine("Невалидно ID на курс!");
+                    return;
+                }
+                courseId = cid;
             }
 
             Console.Write("\nКолко въпроса искате да има този тест?: ");
-            int questionsCount = int.Parse(Console.ReadLine());
+
+            if (!int.TryParse(Console.ReadLine(), out int questionsCount) || questionsCount <= 0)
+            {
+                Console.WriteLine("Невалиден брой въпроси! Моля въведете положително цяло число.");
+                return;
+            }
 
             List<TestQuestions> questionsList = new List<TestQuestions>();
 
@@ -382,6 +537,12 @@ namespace PG_Тема_11.UI
 
                 Console.Write("Текст на въпроса: ");
                 string qText = Console.ReadLine();
+
+                if (string.IsNullOrWhiteSpace(qText))
+                {
+                    Console.WriteLine("Текстът на въпроса не може да е празен!");
+                    return;
+                }
 
                 Console.Write("Опция A: ");
                 string optA = Console.ReadLine();
@@ -417,10 +578,20 @@ namespace PG_Тема_11.UI
         public void StartTestUI()
         {
             Console.WriteLine("Въведете вашето ID на обучаем:");
-            int studentId = int.Parse(Console.ReadLine());
+
+            if (!int.TryParse(Console.ReadLine(), out int studentId) || studentId <= 0)
+            {
+                Console.WriteLine("Невалидно ID на обучаем! Моля въведете положително цяло число.");
+                return;
+            }
 
             Console.WriteLine("Въведете ID на теста, който искате да стартирате:");
-            int testId = int.Parse(Console.ReadLine());
+
+            if (!int.TryParse(Console.ReadLine(), out int testId) || testId <= 0)
+            {
+                Console.WriteLine("Невалидно ID на тест! Моля въведете положително цяло число.");
+                return;
+            }
 
             try
             {
@@ -435,13 +606,24 @@ namespace PG_Тема_11.UI
             }
         }
 
+        // 12
         public void TakeDynamicTestUI()
         {
             Console.WriteLine("Въведете ID на обучаемия:");
-            int studentId = int.Parse(Console.ReadLine());
+
+            if (!int.TryParse(Console.ReadLine(), out int studentId) || studentId <= 0)
+            {
+                Console.WriteLine("Невалидно ID на обучаем! Моля въведете положително цяло число.");
+                return;
+            }
 
             Console.WriteLine("Въведете ID на теста:");
-            int testId = int.Parse(Console.ReadLine());
+
+            if (!int.TryParse(Console.ReadLine(), out int testId) || testId <= 0)
+            {
+                Console.WriteLine("Невалидно ID на тест! Моля въведете положително цяло число.");
+                return;
+            }
 
             try
             {
@@ -458,8 +640,14 @@ namespace PG_Тема_11.UI
                     Console.WriteLine($"B) {q.OptionB}");
                     Console.WriteLine($"C) {q.OptionC}");
 
-                    Console.Write("Вашият отговор (A/B/C): ");
-                    string answer = Console.ReadLine().Trim().ToUpper();
+                    string answer = "";
+                    while (answer != "A" && answer != "B" && answer != "C")
+                    {
+                        Console.Write("Вашият отговор (A/B/C): ");
+                        answer = Console.ReadLine().Trim().ToUpper();
+                        if (answer != "A" && answer != "B" && answer != "C")
+                            Console.WriteLine("Невалиден отговор! Въведете A, B или C.");
+                    }
                     studentAnswers.Add(answer);
                 }
 
@@ -474,10 +662,20 @@ namespace PG_Тема_11.UI
         public void ViewCourseSuccessRateUI()
         {
             Console.WriteLine("Въведете ID на обучаемия:");
-            int studentId = int.Parse(Console.ReadLine());
+
+            if (!int.TryParse(Console.ReadLine(), out int studentId) || studentId <= 0)
+            {
+                Console.WriteLine("Невалидно ID на обучаем! Моля въведете положително цяло число.");
+                return;
+            }
 
             Console.WriteLine("Въведете ID на курса:");
-            int courseId = int.Parse(Console.ReadLine());
+
+            if (!int.TryParse(Console.ReadLine(), out int courseId) || courseId <= 0)
+            {
+                Console.WriteLine("Невалидно ID на курс! Моля въведете положително цяло число.");
+                return;
+            }
 
             try
             {
@@ -486,13 +684,9 @@ namespace PG_Тема_11.UI
                 Console.WriteLine($"Средна успеваемост от изпитите: {successRate:F2}%");
 
                 if (successRate >= 50)
-                {
                     Console.WriteLine("Статус: КУРСЪТ Е ПРЕМИНАТ УСПЕШНО! 🎓");
-                }
                 else
-                {
                     Console.WriteLine("Статус: Резултатът е под 50%. Курсът не е преминат.");
-                }
             }
             catch (Exception ex)
             {
@@ -507,19 +701,27 @@ namespace PG_Тема_11.UI
         {
             Console.WriteLine("\n--- 14. ОПРЕДЕЛЯНЕ НА УСПЕШНО ЗАВЪРШВАНЕ НА КУРС ---");
             Console.Write("Въведете ID на студент: ");
-            int studentId = int.Parse(Console.ReadLine());
+
+            if (!int.TryParse(Console.ReadLine(), out int studentId) || studentId <= 0)
+            {
+                Console.WriteLine("Невалидно ID на студент! Моля въведете положително цяло число.");
+                return;
+            }
 
             Console.Write("Въведете ID на курс: ");
-            int courseId = int.Parse(Console.ReadLine());
+
+            if (!int.TryParse(Console.ReadLine(), out int courseId) || courseId <= 0)
+            {
+                Console.WriteLine("Невалидно ID на курс! Моля въведете положително цяло число.");
+                return;
+            }
 
             try
             {
                 bool isCompleted = enrolAndCoursesService.CheckIfCourseIsCompleted(studentId, courseId);
 
                 if (isCompleted)
-                {
                     Console.WriteLine("\n[СТАТУС]: Курсът е ЗАВЪРШЕН успешно! Статусът е променен на 'Completed' в базата данни. 🎉");
-                }
                 else
                 {
                     Console.WriteLine("\n[СТАТУС]: Курсът НЕ е завършен.");
@@ -539,10 +741,20 @@ namespace PG_Тема_11.UI
         {
             Console.WriteLine("\n--- 15. ИЗДАВАНЕ НА УДОСТОВЕРЕНИЕ (СЕРТИФИКАТ) ---");
             Console.Write("Въведете ID на студент: ");
-            int studentId = int.Parse(Console.ReadLine());
+
+            if (!int.TryParse(Console.ReadLine(), out int studentId) || studentId <= 0)
+            {
+                Console.WriteLine("Невалидно ID на студент! Моля въведете положително цяло число.");
+                return;
+            }
 
             Console.Write("Въведете ID на курс: ");
-            int courseId = int.Parse(Console.ReadLine());
+
+            if (!int.TryParse(Console.ReadLine(), out int courseId) || courseId <= 0)
+            {
+                Console.WriteLine("Невалидно ID на курс! Моля въведете положително цяло число.");
+                return;
+            }
 
             try
             {
@@ -554,25 +766,33 @@ namespace PG_Тема_11.UI
                 Console.WriteLine($"\n[ОТКАЗ ЗА ИЗДАВАНЕ]: {ex.Message}");
             }
         }
+        // 16
         static void ViewActiveCoursesForStudentUI(EnrolAndCoursesService enrolAndCoursesService)
         {
             Console.WriteLine("\n=== 16. ПРЕГЛЕД НА АКТИВНИ КУРСОВЕ ЗА ОБУЧАЕМ ===");
+
             Console.Write("Въведете ID на обучаемия: ");
 
-            if (!int.TryParse(Console.ReadLine(), out int studentId))
+
+            if (!int.TryParse(Console.ReadLine(), out int studentId) || studentId <= 0)
             {
-                Console.WriteLine("Невалидно ID!");
+                Console.WriteLine("Невалидно ID! Моля въведете положително цяло число.");
                 return;
             }
 
+
+            
             try
             {
+
                 var activeCourses = enrolAndCoursesService.GetActiveCoursesForStudent(studentId);
 
                 if (activeCourses == null || activeCourses.Count == 0)
                 {
                     Console.WriteLine("Този обучаем няма активни записвания в нито един курс в момента.");
                     return;
+
+
                 }
 
                 Console.WriteLine($"\nАктивни курсове за обучаем с ID {studentId}:");
@@ -587,10 +807,6 @@ namespace PG_Тема_11.UI
             {
                 Console.WriteLine($"Грешка: {ex.Message}");
             }
-
-
-
-
         }
 
 
@@ -629,7 +845,6 @@ namespace PG_Тема_11.UI
             {
                 Console.WriteLine(ex.Message);
             }
-
         }
 
         //18
