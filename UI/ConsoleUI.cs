@@ -5,6 +5,7 @@ using PG_Тема_11.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 
 namespace PG_Тема_11.UI
@@ -31,36 +32,140 @@ namespace PG_Тема_11.UI
             this.studentsTestsService = studentsTestsService;
         }
 
+        // ============================================================
+        //  HELPER METHODS FOR FLASHY ASCII UI (added only, no logic changes)
+        // ============================================================
+        private static void PrintLine(char c = '=', int length = 64, ConsoleColor color = ConsoleColor.DarkCyan)
+        {
+            Console.ForegroundColor = color;
+            Console.WriteLine(new string(c, length));
+            Console.ResetColor();
+        }
+
+        private static void TypeOut(string text, int delay = 1)
+        {
+            foreach (char c in text)
+            {
+                Console.Write(c);
+                if (delay > 0) Thread.Sleep(delay);
+            }
+            Console.WriteLine();
+        }
+
+        private static void PrintSectionHeader(string title, ConsoleColor color = ConsoleColor.Cyan)
+        {
+            Console.WriteLine();
+            Console.ForegroundColor = color;
+            Console.WriteLine("  .------------------------------------------------------------.");
+            Console.WriteLine($"  |  >>> {title.PadRight(54)}|");
+            Console.WriteLine("  '------------------------------------------------------------'");
+            Console.ResetColor();
+        }
+
+        private static void PrintSuccess(string text)
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"  [ OK ]  {text}");
+            Console.ResetColor();
+        }
+
+        private static void PrintError(string text)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"  [ !! ]  {text}");
+            Console.ResetColor();
+        }
+
+        private static void PrintInfo(string text)
+        {
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine(text);
+            Console.ResetColor();
+        }
+
+        private static void PressEnterToContinue()
+        {
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.WriteLine();
+            Console.WriteLine("  ........................................................");
+            Console.Write("   >> Press ENTER to return to the menu... ");
+            Console.ResetColor();
+            Console.ReadLine();
+        }
+
+        private static void PrintBanner()
+        {
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.WriteLine(
+                " ###   ###  ####  #####   #####   ####  ####  #####  #### #   #  ### \n" +
+                "#     #   # #   #   #       #     #   # #   # #     #     #  #  #   #\n" +
+                "# ### ##### ####    #       #     ####  ####  ###    ###  ###   #   #\n" +
+                "#   # #   # #   #   #       #     #     # #   #         # #  #  #   #\n" +
+                " ###  #   # ####  #####   #####   #     #  #  ##### ####  #   #  ### "
+            );
+            Console.ResetColor();
+        }
+
         public void Run()
         {
             bool running = true;
 
             while (running)
             {
-                Console.WriteLine("\n=== МЕНЮ СИСТЕМА ===");
-                Console.WriteLine("1:Create new Course");
-                Console.WriteLine("2:Edit a course");
-                Console.WriteLine("3:Add Lessons");
-                Console.WriteLine("4:Edit Lessons");
-                Console.WriteLine("5:Add new Student");
-                Console.WriteLine("6:Enrol");
-                Console.WriteLine("7:Unenrol");
-                Console.WriteLine("8:Show student progress");
-                Console.WriteLine("9:Complete lesson");
-                Console.WriteLine("10:Create test");
-                Console.WriteLine("11:Start Test");
-                Console.WriteLine("12:TakeDynamicTestUI()");
-                Console.WriteLine("13:ViewCourseSuccessRateUI()");
-                Console.WriteLine("14:CheckIfCourseIsCompletedUI() 🎓");
-                Console.WriteLine("15:GenerateCertificateUI() 📜");
-                Console.WriteLine("16:Active courses📜");
-                Console.WriteLine("17:Report for students in course");
-                Console.WriteLine("18:Report courses with highest success rate");
-                Console.WriteLine("19:Report most popular courses for period");
-                Console.WriteLine("20:Student training history");
-                Console.WriteLine("0:Exit");
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.DarkCyan;
+                Console.WriteLine("*=========================================================*");
+                Console.ResetColor();
+                PrintBanner();
+                Console.ForegroundColor = ConsoleColor.DarkCyan;
+                Console.WriteLine("*=========================================================*");
+                Console.ResetColor();
 
-                Console.Write("Choose: ");
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine();
+                Console.WriteLine("     _ __ ___   ___ _ __  _   _ ");
+                Console.WriteLine("    | '_ ` _ \\ / _ \\ '_ \\| | | |");
+                Console.WriteLine("    | | | | | |  __/ | | | |_| |");
+                Console.WriteLine("    |_| |_| |_|\\___|_| |_|\\__,_|");
+                Console.ResetColor();
+
+                Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.DarkCyan;
+                Console.WriteLine(" +========================================================+");
+                Console.ResetColor();
+
+                PrintMenuRow("1", "Create new Course", ConsoleColor.White);
+                PrintMenuRow("2", "Edit a course", ConsoleColor.White);
+                PrintMenuRow("3", "Add Lessons", ConsoleColor.White);
+                PrintMenuRow("4", "Edit Lessons", ConsoleColor.White);
+                PrintMenuRow("5", "Add new Student", ConsoleColor.White);
+                PrintMenuRow("6", "Enrol", ConsoleColor.Green);
+                PrintMenuRow("7", "Unenrol", ConsoleColor.Red);
+                PrintMenuRow("8", "Show student progress", ConsoleColor.Cyan);
+                PrintMenuRow("9", "Complete lesson", ConsoleColor.Cyan);
+                PrintMenuRow("10", "Create test", ConsoleColor.Yellow);
+                PrintMenuRow("11", "Start Test", ConsoleColor.Yellow);
+                PrintMenuRow("12", "TakeDynamicTestUI()", ConsoleColor.Yellow);
+                PrintMenuRow("13", "ViewCourseSuccessRateUI()", ConsoleColor.Cyan);
+                PrintMenuRow("14", "CheckIfCourseIsCompletedUI() [GRAD]", ConsoleColor.Magenta);
+                PrintMenuRow("15", "GenerateCertificateUI() [CERT]", ConsoleColor.Magenta);
+                PrintMenuRow("16", "Active courses [LIST]", ConsoleColor.Green);
+                PrintMenuRow("17", "Report for students in course", ConsoleColor.Gray);
+                PrintMenuRow("18", "Report courses with highest success", ConsoleColor.Gray);
+                PrintMenuRow("19", "Report most popular courses for period", ConsoleColor.Gray);
+                PrintMenuRow("20", "Student training history", ConsoleColor.Gray);
+
+                Console.ForegroundColor = ConsoleColor.DarkCyan;
+                Console.WriteLine(" +--------------------------------------------------------+");
+                Console.ResetColor();
+                PrintMenuRow("0", "Exit", ConsoleColor.Red);
+                Console.ForegroundColor = ConsoleColor.DarkCyan;
+                Console.WriteLine(" +========================================================+");
+                Console.ResetColor();
+
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write("\n   >>> Choose an option: ");
+                Console.ResetColor();
                 int input = int.Parse(Console.ReadLine());
 
                 switch (input)
@@ -129,17 +234,56 @@ namespace PG_Тема_11.UI
                         running = false;
                         break;
                 }
+
+                if (running)
+                {
+                    PressEnterToContinue();
+                }
             }
+
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.WriteLine(@"
+   ____                 _ _               _ 
+  / ___| ___   ___   __| | |__  _   _  ___| |
+ | |  _ / _ \ / _ \ / _` | '_ \| | | |/ _ \ |
+ | |_| | (_) | (_) | (_| | |_) | |_| |  __/_|
+  \____|\___/ \___/ \__,_|_.__/ \__, |\___(_)
+                                 |___/        
+");
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine("            Thanks for using the system. See you soon!");
+            Console.ResetColor();
+        }
+
+        private static void PrintMenuRow(string number, string text, ConsoleColor color)
+        {
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.Write(" | ");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write($"{number,2}");
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.Write(" : ");
+            Console.ForegroundColor = color;
+            Console.Write($"{text}");
+            int pad = 50 - text.Length - number.Length;
+            if (pad < 0) pad = 0;
+            Console.Write(new string(' ', pad));
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.WriteLine("|");
+            Console.ResetColor();
         }
 
         public void CreateCourse()
         {
+            PrintSectionHeader("CREATE NEW COURSE", ConsoleColor.Green);
+
             Console.WriteLine("Course Title");
             string title = Console.ReadLine();
 
             if (string.IsNullOrWhiteSpace(title))
             {
-                Console.WriteLine("Title cannot be empty!");
+                PrintError("Title cannot be empty!");
                 return;
             }
 
@@ -148,7 +292,7 @@ namespace PG_Тема_11.UI
 
             if (string.IsNullOrWhiteSpace(description))
             {
-                Console.WriteLine("Description cannot be empty!");
+                PrintError("Description cannot be empty!");
                 return;
             }
 
@@ -160,7 +304,7 @@ namespace PG_Тема_11.UI
             if (!int.TryParse(Console.ReadLine(), out int level) ||
                 level < 0 || level > 2)
             {
-                Console.WriteLine("Invalid level!");
+                PrintError("Invalid level!");
                 return;
             }
 
@@ -169,11 +313,11 @@ namespace PG_Тема_11.UI
             try
             {
                 enrolAndCoursesService.CreateCourse(title, description, courselevel);
-                Console.WriteLine("Course Created");
+                PrintSuccess("Course Created");
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                PrintError(ex.Message);
             }
 
             Console.ReadLine();
@@ -181,11 +325,13 @@ namespace PG_Тема_11.UI
 
         public void EditCourse()
         {
+            PrintSectionHeader("EDIT COURSE", ConsoleColor.Yellow);
+
             Console.WriteLine("Choose course to edit by id");
 
             if (!int.TryParse(Console.ReadLine(), out int id) || id <= 0)
             {
-                Console.WriteLine("Невалидно ID! Моля въведете положително цяло число.");
+                PrintError("Невалидно ID! Моля въведете положително цяло число.");
                 return;
             }
 
@@ -194,7 +340,7 @@ namespace PG_Тема_11.UI
 
             if (string.IsNullOrWhiteSpace(title))
             {
-                Console.WriteLine("Заглавието не може да е празно!");
+                PrintError("Заглавието не може да е празно!");
                 return;
             }
 
@@ -203,7 +349,7 @@ namespace PG_Тема_11.UI
 
             if (string.IsNullOrWhiteSpace(description))
             {
-                Console.WriteLine("Описанието не може да е празно!");
+                PrintError("Описанието не може да е празно!");
                 return;
             }
 
@@ -214,7 +360,7 @@ namespace PG_Тема_11.UI
 
             if (!int.TryParse(Console.ReadLine(), out int levelChoice) || levelChoice < 1 || levelChoice > 3)
             {
-                Console.WriteLine("Невалиден избор на ниво! Моля въведете 1, 2 или 3.");
+                PrintError("Невалиден избор на ниво! Моля въведете 1, 2 или 3.");
                 return;
             }
 
@@ -230,22 +376,24 @@ namespace PG_Тема_11.UI
             try
             {
                 enrolAndCoursesService.EditCourses(id, title, description, courselevel);
-                Console.WriteLine("Course Edited");
+                PrintSuccess("Course Edited");
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                PrintError(ex.Message);
             }
         }
 
         public void AddLesson()
         {
+            PrintSectionHeader("ADD LESSON", ConsoleColor.Green);
+
             Console.WriteLine("Lesson Title");
             string title = Console.ReadLine();
 
             if (string.IsNullOrWhiteSpace(title))
             {
-                Console.WriteLine("Заглавието не може да е празно!");
+                PrintError("Заглавието не може да е празно!");
                 return;
             }
 
@@ -254,7 +402,7 @@ namespace PG_Тема_11.UI
 
             if (string.IsNullOrWhiteSpace(content))
             {
-                Console.WriteLine("Съдържанието не може да е празно!");
+                PrintError("Съдържанието не може да е празно!");
                 return;
             }
 
@@ -262,28 +410,30 @@ namespace PG_Тема_11.UI
 
             if (!int.TryParse(Console.ReadLine(), out int courseId) || courseId <= 0)
             {
-                Console.WriteLine("Невалидно ID на курс! Моля въведете положително цяло число.");
+                PrintError("Невалидно ID на курс! Моля въведете положително цяло число.");
                 return;
             }
 
             try
             {
                 lessonsService.AddLessons(title, content, courseId);
-                Console.WriteLine("Lesson Created");
+                PrintSuccess("Lesson Created");
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                PrintError(ex.Message);
             }
         }
 
         public void EditLesson()
         {
+            PrintSectionHeader("EDIT LESSON", ConsoleColor.Yellow);
+
             Console.WriteLine("Choose Lesson to edit by id");
 
             if (!int.TryParse(Console.ReadLine(), out int id) || id <= 0)
             {
-                Console.WriteLine("Невалидно ID! Моля въведете положително цяло число.");
+                PrintError("Невалидно ID! Моля въведете положително цяло число.");
                 return;
             }
 
@@ -292,7 +442,7 @@ namespace PG_Тема_11.UI
 
             if (string.IsNullOrWhiteSpace(title))
             {
-                Console.WriteLine("Заглавието не може да е празно!");
+                PrintError("Заглавието не може да е празно!");
                 return;
             }
 
@@ -301,29 +451,31 @@ namespace PG_Тема_11.UI
 
             if (string.IsNullOrWhiteSpace(content))
             {
-                Console.WriteLine("Съдържанието не може да е празно!");
+                PrintError("Съдържанието не може да е празно!");
                 return;
             }
 
             try
             {
                 lessonsService.EditLesson(id, title, content);
-                Console.WriteLine("Lesson Edited");
+                PrintSuccess("Lesson Edited");
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                PrintError(ex.Message);
             }
         }
 
         public void AddStudent()
         {
+            PrintSectionHeader("ADD NEW STUDENT", ConsoleColor.Green);
+
             Console.WriteLine("Enter FirstName");
             string firstname = Console.ReadLine();
 
             if (string.IsNullOrWhiteSpace(firstname))
             {
-                Console.WriteLine("Името не може да е празно!");
+                PrintError("Името не може да е празно!");
                 return;
             }
 
@@ -332,7 +484,7 @@ namespace PG_Тема_11.UI
 
             if (string.IsNullOrWhiteSpace(lastname))
             {
-                Console.WriteLine("Фамилията не може да е празна!");
+                PrintError("Фамилията не може да е празна!");
                 return;
             }
 
@@ -341,28 +493,30 @@ namespace PG_Тема_11.UI
 
             if (string.IsNullOrWhiteSpace(email) || !email.Contains("@"))
             {
-                Console.WriteLine("Невалиден email адрес!");
+                PrintError("Невалиден email адрес!");
                 return;
             }
 
             try
             {
                 studentsService.AddStudent(firstname, lastname, email);
-                Console.WriteLine("Student Added");
+                PrintSuccess("Student Added");
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                PrintError(ex.Message);
             }
         }
 
         public void EnrolStudentUI()
         {
+            PrintSectionHeader("ENROL STUDENT", ConsoleColor.Green);
+
             Console.WriteLine("Въведете ID на обучаемия:");
 
             if (!int.TryParse(Console.ReadLine(), out int studentId) || studentId <= 0)
             {
-                Console.WriteLine("Невалидно ID на обучаем! Моля въведете положително цяло число.");
+                PrintError("Невалидно ID на обучаем! Моля въведете положително цяло число.");
                 return;
             }
 
@@ -370,28 +524,30 @@ namespace PG_Тема_11.UI
 
             if (!int.TryParse(Console.ReadLine(), out int courseId) || courseId <= 0)
             {
-                Console.WriteLine("Невалидно ID на курс! Моля въведете положително цяло число.");
+                PrintError("Невалидно ID на курс! Моля въведете положително цяло число.");
                 return;
             }
 
             try
             {
                 enrolAndCoursesService.EnrolStudent(studentId, courseId);
-                Console.WriteLine("Обучаемият беше записан успешно за курса!");
+                PrintSuccess("Обучаемият беше записан успешно за курса!");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Грешка при записване: {ex.Message}");
+                PrintError($"Грешка при записване: {ex.Message}");
             }
         }
 
         public void UnenrolStudentUI()
         {
+            PrintSectionHeader("UNENROL STUDENT", ConsoleColor.Red);
+
             Console.WriteLine("Въведете ID на обучаемия за отписване:");
 
             if (!int.TryParse(Console.ReadLine(), out int studentId) || studentId <= 0)
             {
-                Console.WriteLine("Невалидно ID на обучаем! Моля въведете положително цяло число.");
+                PrintError("Невалидно ID на обучаем! Моля въведете положително цяло число.");
                 return;
             }
 
@@ -399,28 +555,30 @@ namespace PG_Тема_11.UI
 
             if (!int.TryParse(Console.ReadLine(), out int courseId) || courseId <= 0)
             {
-                Console.WriteLine("Невалидно ID на курс! Моля въведете положително цяло число.");
+                PrintError("Невалидно ID на курс! Моля въведете положително цяло число.");
                 return;
             }
 
             try
             {
                 enrolAndCoursesService.UnenrolStudent(studentId, courseId);
-                Console.WriteLine("Обучаемият беше отписан успешно от курса!");
+                PrintSuccess("Обучаемият беше отписан успешно от курса!");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Грешка при отписване: {ex.Message}");
+                PrintError($"Грешка при отписване: {ex.Message}");
             }
         }
 
         public void ViewProgressUI()
         {
+            PrintSectionHeader("STUDENT PROGRESS", ConsoleColor.Cyan);
+
             Console.WriteLine("Въведете ID на обучаемия:");
 
             if (!int.TryParse(Console.ReadLine(), out int studentId) || studentId <= 0)
             {
-                Console.WriteLine("Невалидно ID на обучаем! Моля въведете положително цяло число.");
+                PrintError("Невалидно ID на обучаем! Моля въведете положително цяло число.");
                 return;
             }
 
@@ -428,30 +586,48 @@ namespace PG_Тема_11.UI
 
             if (!int.TryParse(Console.ReadLine(), out int courseId) || courseId <= 0)
             {
-                Console.WriteLine("Невалидно ID на курс! Моля въведете положително цяло число.");
+                PrintError("Невалидно ID на курс! Моля въведете положително цяло число.");
                 return;
             }
 
             try
             {
                 var enrolment = enrolAndCoursesService.GetStudentProgress(studentId, courseId);
+                PrintLine('-', 64, ConsoleColor.Cyan);
                 Console.WriteLine($"--- НАПРЕДЪК НА ОБУЧАЕМИЯ ---");
                 Console.WriteLine($"Текущ статус: {enrolment.Status}");
+
+                double progress = enrolment.Progress;
+                int barWidth = 40;
+                int filled = (int)(progress / 100.0 * barWidth);
+                if (filled < 0) filled = 0;
+                if (filled > barWidth) filled = barWidth;
+
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write("[");
+                Console.Write(new string('#', filled));
+                Console.ResetColor();
+                Console.Write(new string('-', barWidth - filled));
+                Console.WriteLine($"] {progress:F2}%");
+
                 Console.WriteLine($"Завършени уроци (Прогрес): {enrolment.Progress:F2}%");
+                PrintLine('-', 64, ConsoleColor.Cyan);
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Грешка: {ex.Message}");
+                PrintError($"Грешка: {ex.Message}");
             }
         }
 
         public void CompleteLessonUI()
         {
+            PrintSectionHeader("COMPLETE LESSON", ConsoleColor.Cyan);
+
             Console.WriteLine("Въведете ID на обучаемия:");
 
             if (!int.TryParse(Console.ReadLine(), out int studentId) || studentId <= 0)
             {
-                Console.WriteLine("Невалидно ID на обучаем! Моля въведете положително цяло число.");
+                PrintError("Невалидно ID на обучаем! Моля въведете положително цяло число.");
                 return;
             }
 
@@ -459,33 +635,35 @@ namespace PG_Тема_11.UI
 
             if (!int.TryParse(Console.ReadLine(), out int lessonId) || lessonId <= 0)
             {
-                Console.WriteLine("Невалидно ID на урок! Моля въведете положително цяло число.");
+                PrintError("Невалидно ID на урок! Моля въведете положително цяло число.");
                 return;
             }
 
             try
             {
                 enrolAndCoursesService.MarkLessonAsCompleted(studentId, lessonId);
-                Console.WriteLine("Урокът беше отбелязан като завършен успешно! Прогресът е обновен.");
+                PrintSuccess("Урокът беше отбелязан като завършен успешно! Прогресът е обновен.");
             }
             catch (Exception ex)
             {
                 if (ex.InnerException != null)
-                    Console.WriteLine($"Грешка от базата данни: {ex.InnerException.Message}");
+                    PrintError($"Грешка от базата данни: {ex.InnerException.Message}");
                 else
-                    Console.WriteLine($"Грешка: {ex.Message}");
+                    PrintError($"Грешка: {ex.Message}");
             }
         }
 
         public void CreateTestUI()
         {
+            PrintSectionHeader("CREATE NEW TEST", ConsoleColor.Yellow);
+
             Console.WriteLine("=== СЪЗДАВАНЕ НА НОВ ТЕСТ ===");
             Console.Write("Въведете заглавие на теста: ");
             string title = Console.ReadLine();
 
             if (string.IsNullOrWhiteSpace(title))
             {
-                Console.WriteLine("Заглавието не може да е празно!");
+                PrintError("Заглавието не може да е празно!");
                 return;
             }
 
@@ -493,7 +671,7 @@ namespace PG_Тема_11.UI
 
             if (!int.TryParse(Console.ReadLine(), out int choice) || (choice != 1 && choice != 2))
             {
-                Console.WriteLine("Невалиден избор! Моля въведете 1 или 2.");
+                PrintError("Невалиден избор! Моля въведете 1 или 2.");
                 return;
             }
 
@@ -505,7 +683,7 @@ namespace PG_Тема_11.UI
                 Console.Write("Въведете ID на урока: ");
                 if (!int.TryParse(Console.ReadLine(), out int lid) || lid <= 0)
                 {
-                    Console.WriteLine("Невалидно ID на урок!");
+                    PrintError("Невалидно ID на урок!");
                     return;
                 }
                 lessonId = lid;
@@ -515,7 +693,7 @@ namespace PG_Тема_11.UI
                 Console.Write("Въведете ID на курса: ");
                 if (!int.TryParse(Console.ReadLine(), out int cid) || cid <= 0)
                 {
-                    Console.WriteLine("Невалидно ID на курс!");
+                    PrintError("Невалидно ID на курс!");
                     return;
                 }
                 courseId = cid;
@@ -525,7 +703,7 @@ namespace PG_Тема_11.UI
 
             if (!int.TryParse(Console.ReadLine(), out int questionsCount) || questionsCount <= 0)
             {
-                Console.WriteLine("Невалиден брой въпроси! Моля въведете положително цяло число.");
+                PrintError("Невалиден брой въпроси! Моля въведете положително цяло число.");
                 return;
             }
 
@@ -533,14 +711,17 @@ namespace PG_Тема_11.UI
 
             for (int i = 0; i < questionsCount; i++)
             {
-                Console.WriteLine($"\n--- Въвеждане на въпрос {i + 1} ---");
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.WriteLine();
+                Console.WriteLine($"  >>>>>>>>>> Question {i + 1} of {questionsCount} <<<<<<<<<<");
+                Console.ResetColor();
 
                 Console.Write("Текст на въпроса: ");
                 string qText = Console.ReadLine();
 
                 if (string.IsNullOrWhiteSpace(qText))
                 {
-                    Console.WriteLine("Текстът на въпроса не може да е празен!");
+                    PrintError("Текстът на въпроса не може да е празен!");
                     return;
                 }
 
@@ -567,21 +748,23 @@ namespace PG_Тема_11.UI
             try
             {
                 testsService.CreateTestWithQuestions(title, lessonId, courseId, questionsList);
-                Console.WriteLine("Тестът беше създаден успешно заедно с въпросите към него.");
+                PrintSuccess("Тестът беше създаден успешно заедно с въпросите към него.");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Грешка при създаване на теста: {ex.Message}");
+                PrintError($"Грешка при създаване на теста: {ex.Message}");
             }
         }
 
         public void StartTestUI()
         {
+            PrintSectionHeader("START TEST", ConsoleColor.Yellow);
+
             Console.WriteLine("Въведете вашето ID на обучаем:");
 
             if (!int.TryParse(Console.ReadLine(), out int studentId) || studentId <= 0)
             {
-                Console.WriteLine("Невалидно ID на обучаем! Моля въведете положително цяло число.");
+                PrintError("Невалидно ID на обучаем! Моля въведете положително цяло число.");
                 return;
             }
 
@@ -589,31 +772,35 @@ namespace PG_Тема_11.UI
 
             if (!int.TryParse(Console.ReadLine(), out int testId) || testId <= 0)
             {
-                Console.WriteLine("Невалидно ID на тест! Моля въведете положително цяло число.");
+                PrintError("Невалидно ID на тест! Моля въведете положително цяло число.");
                 return;
             }
 
             try
             {
                 var test = testsService.StartTest(studentId, testId);
+                PrintLine('*', 64, ConsoleColor.Yellow);
                 Console.WriteLine($"\n--- ТЕСТЪТ СТАРТИРА УСПЕШНО ---");
                 Console.WriteLine($"Заглавие: {test.Title}");
-                Console.WriteLine("Успех!");
+                PrintSuccess("Успех!");
+                PrintLine('*', 64, ConsoleColor.Yellow);
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Достъпът е отказан: {ex.Message}");
+                PrintError($"Достъпът е отказан: {ex.Message}");
             }
         }
 
         // 12
         public void TakeDynamicTestUI()
         {
+            PrintSectionHeader("DYNAMIC TEST", ConsoleColor.Yellow);
+
             Console.WriteLine("Въведете ID на обучаемия:");
 
             if (!int.TryParse(Console.ReadLine(), out int studentId) || studentId <= 0)
             {
-                Console.WriteLine("Невалидно ID на обучаем! Моля въведете положително цяло число.");
+                PrintError("Невалидно ID на обучаем! Моля въведете положително цяло число.");
                 return;
             }
 
@@ -621,7 +808,7 @@ namespace PG_Тема_11.UI
 
             if (!int.TryParse(Console.ReadLine(), out int testId) || testId <= 0)
             {
-                Console.WriteLine("Невалидно ID на тест! Моля въведете положително цяло число.");
+                PrintError("Невалидно ID на тест! Моля въведете положително цяло число.");
                 return;
             }
 
@@ -630,15 +817,23 @@ namespace PG_Тема_11.UI
                 var questions = studentsTestsService.GetQuestionsForTest(testId);
                 List<string> studentAnswers = new List<string>();
 
+                Console.ForegroundColor = ConsoleColor.Magenta;
                 Console.WriteLine($"\n=== ТЕСТ СТАРТИРА (Общо въпроси: {questions.Count}) ===");
+                Console.ResetColor();
 
                 for (int i = 0; i < questions.Count; i++)
                 {
                     var q = questions[i];
-                    Console.WriteLine($"\nВъпрос {i + 1}: {q.QuestionText}");
-                    Console.WriteLine($"A) {q.OptionA}");
-                    Console.WriteLine($"B) {q.OptionB}");
-                    Console.WriteLine($"C) {q.OptionC}");
+
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                    Console.WriteLine();
+                    Console.WriteLine($"  >>>>>>>>>> Question {i + 1} of {questions.Count} <<<<<<<<<<");
+                    Console.ResetColor();
+
+                    Console.WriteLine($"{q.QuestionText}");
+                    Console.WriteLine($"   A) {q.OptionA}");
+                    Console.WriteLine($"   B) {q.OptionB}");
+                    Console.WriteLine($"   C) {q.OptionC}");
 
                     string answer = "";
                     while (answer != "A" && answer != "B" && answer != "C")
@@ -646,7 +841,7 @@ namespace PG_Тема_11.UI
                         Console.Write("Вашият отговор (A/B/C): ");
                         answer = Console.ReadLine().Trim().ToUpper();
                         if (answer != "A" && answer != "B" && answer != "C")
-                            Console.WriteLine("Невалиден отговор! Въведете A, B или C.");
+                            PrintError("Невалиден отговор! Въведете A, B или C.");
                     }
                     studentAnswers.Add(answer);
                 }
@@ -655,17 +850,19 @@ namespace PG_Тема_11.UI
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Грешка: {ex.Message}");
+                PrintError($"Грешка: {ex.Message}");
             }
         }
 
         public void ViewCourseSuccessRateUI()
         {
+            PrintSectionHeader("COURSE SUCCESS RATE", ConsoleColor.Cyan);
+
             Console.WriteLine("Въведете ID на обучаемия:");
 
             if (!int.TryParse(Console.ReadLine(), out int studentId) || studentId <= 0)
             {
-                Console.WriteLine("Невалидно ID на обучаем! Моля въведете положително цяло число.");
+                PrintError("Невалидно ID на обучаем! Моля въведете положително цяло число.");
                 return;
             }
 
@@ -673,24 +870,35 @@ namespace PG_Тема_11.UI
 
             if (!int.TryParse(Console.ReadLine(), out int courseId) || courseId <= 0)
             {
-                Console.WriteLine("Невалидно ID на курс! Моля въведете положително цяло число.");
+                PrintError("Невалидно ID на курс! Моля въведете положително цяло число.");
                 return;
             }
 
             try
             {
                 double successRate = studentsTestsService.CalculateCourseSuccessRate(studentId, courseId);
+                PrintLine('-', 64, ConsoleColor.Cyan);
                 Console.WriteLine($"\n--- КРАЕН УСПЕХ ЗА КУРСА ---");
                 Console.WriteLine($"Средна успеваемост от изпитите: {successRate:F2}%");
 
                 if (successRate >= 50)
-                    Console.WriteLine("Статус: КУРСЪТ Е ПРЕМИНАТ УСПЕШНО! 🎓");
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine(@"
+   *  ***** *   *  ***** *
+  ***   *   * * *  *      *
+ *****  *   *   *  *****  *
+");
+                    Console.ResetColor();
+                    PrintSuccess("Статус: КУРСЪТ Е ПРЕМИНАТ УСПЕШНО! [GRADUATED]");
+                }
                 else
                     Console.WriteLine("Статус: Резултатът е под 50%. Курсът не е преминат.");
+                PrintLine('-', 64, ConsoleColor.Cyan);
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Грешка при изчисление: {ex.Message}");
+                PrintError($"Грешка при изчисление: {ex.Message}");
             }
         }
 
@@ -699,12 +907,14 @@ namespace PG_Тема_11.UI
         // =========================================================================
         public void CheckIfCourseIsCompletedUI()
         {
+            PrintSectionHeader("14. ЗАВЪРШВАНЕ НА КУРС", ConsoleColor.Magenta);
+
             Console.WriteLine("\n--- 14. ОПРЕДЕЛЯНЕ НА УСПЕШНО ЗАВЪРШВАНЕ НА КУРС ---");
             Console.Write("Въведете ID на студент: ");
 
             if (!int.TryParse(Console.ReadLine(), out int studentId) || studentId <= 0)
             {
-                Console.WriteLine("Невалидно ID на студент! Моля въведете положително цяло число.");
+                PrintError("Невалидно ID на студент! Моля въведете положително цяло число.");
                 return;
             }
 
@@ -712,7 +922,7 @@ namespace PG_Тема_11.UI
 
             if (!int.TryParse(Console.ReadLine(), out int courseId) || courseId <= 0)
             {
-                Console.WriteLine("Невалидно ID на курс! Моля въведете положително цяло число.");
+                PrintError("Невалидно ID на курс! Моля въведете положително цяло число.");
                 return;
             }
 
@@ -721,7 +931,18 @@ namespace PG_Тема_11.UI
                 bool isCompleted = enrolAndCoursesService.CheckIfCourseIsCompleted(studentId, courseId);
 
                 if (isCompleted)
-                    Console.WriteLine("\n[СТАТУС]: Курсът е ЗАВЪРШЕН успешно! Статусът е променен на 'Completed' в базата данни. 🎉");
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine(@"
+   *   *  ***  *   *  *
+   **  * *   * **  *  *
+   * * * *   * * * *  *
+   *  ** *   * *  **   
+   *   *  ***  *   *  *
+");
+                    Console.ResetColor();
+                    PrintSuccess("\n[СТАТУС]: Курсът е ЗАВЪРШЕН успешно! Статусът е променен на 'Completed' в базата данни. [DONE]");
+                }
                 else
                 {
                     Console.WriteLine("\n[СТАТУС]: Курсът НЕ е завършен.");
@@ -730,7 +951,7 @@ namespace PG_Тема_11.UI
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Грешка при проверката: {ex.Message}");
+                PrintError($"Грешка при проверката: {ex.Message}");
             }
         }
 
@@ -739,12 +960,14 @@ namespace PG_Тема_11.UI
         // =========================================================================
         public void GenerateCertificateUI()
         {
+            PrintSectionHeader("15. ИЗДАВАНЕ НА СЕРТИФИКАТ", ConsoleColor.Magenta);
+
             Console.WriteLine("\n--- 15. ИЗДАВАНЕ НА УДОСТОВЕРЕНИЕ (СЕРТИФИКАТ) ---");
             Console.Write("Въведете ID на студент: ");
 
             if (!int.TryParse(Console.ReadLine(), out int studentId) || studentId <= 0)
             {
-                Console.WriteLine("Невалидно ID на студент! Моля въведете положително цяло число.");
+                PrintError("Невалидно ID на студент! Моля въведете положително цяло число.");
                 return;
             }
 
@@ -752,23 +975,36 @@ namespace PG_Тема_11.UI
 
             if (!int.TryParse(Console.ReadLine(), out int courseId) || courseId <= 0)
             {
-                Console.WriteLine("Невалидно ID на курс! Моля въведете положително цяло число.");
+                PrintError("Невалидно ID на курс! Моля въведете положително цяло число.");
                 return;
             }
 
             try
             {
                 string certificate = enrolAndCoursesService.GenerateCertificate(studentId, courseId);
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.WriteLine();
+                Console.WriteLine("   *~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*");
+                Console.WriteLine("   *                                                      *");
+                Console.WriteLine("   *               C E R T I F I C A T E                  *");
+                Console.WriteLine("   *                                                      *");
+                Console.WriteLine("   *~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*");
+                Console.ResetColor();
                 Console.WriteLine(certificate);
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.WriteLine("   *~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*");
+                Console.ResetColor();
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"\n[ОТКАЗ ЗА ИЗДАВАНЕ]: {ex.Message}");
+                PrintError($"\n[ОТКАЗ ЗА ИЗДАВАНЕ]: {ex.Message}");
             }
         }
         // 16
         static void ViewActiveCoursesForStudentUI(EnrolAndCoursesService enrolAndCoursesService)
         {
+            PrintSectionHeader("16. АКТИВНИ КУРСОВЕ", ConsoleColor.Green);
+
             Console.WriteLine("\n=== 16. ПРЕГЛЕД НА АКТИВНИ КУРСОВЕ ЗА ОБУЧАЕМ ===");
 
             Console.Write("Въведете ID на обучаемия: ");
@@ -776,12 +1012,12 @@ namespace PG_Тема_11.UI
 
             if (!int.TryParse(Console.ReadLine(), out int studentId) || studentId <= 0)
             {
-                Console.WriteLine("Невалидно ID! Моля въведете положително цяло число.");
+                PrintError("Невалидно ID! Моля въведете положително цяло число.");
                 return;
             }
 
 
-            
+
             try
             {
 
@@ -805,7 +1041,7 @@ namespace PG_Тема_11.UI
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Грешка: {ex.Message}");
+                PrintError($"Грешка: {ex.Message}");
             }
         }
 
@@ -816,6 +1052,8 @@ namespace PG_Тема_11.UI
 
         public void GenerateStudentsReportUI()
         {
+            PrintSectionHeader("17. СПРАВКА ЗА ОБУЧАЕМИ", ConsoleColor.Gray);
+
             try
             {
                 Console.WriteLine("Въведете ID на курс: ");
@@ -823,7 +1061,7 @@ namespace PG_Тема_11.UI
 
                 if (!int.TryParse(input, out int courseId) || courseId <= 0)
                 {
-                    Console.WriteLine("Невалидно ID! Моля въведете положително цяло число.");
+                    PrintError("Невалидно ID! Моля въведете положително цяло число.");
                     return;
                 }
 
@@ -843,7 +1081,7 @@ namespace PG_Тема_11.UI
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                PrintError(ex.Message);
             }
         }
 
@@ -853,6 +1091,8 @@ namespace PG_Тема_11.UI
 
         public void GenerateCourseSuccessReportUI()
         {
+            PrintSectionHeader("18. ТОП КУРСОВЕ ПО УСПЕВАЕМОСТ", ConsoleColor.Gray);
+
             try
             {
                 Console.Write("Начална дата (dd.MM.yyyy): ");
@@ -865,7 +1105,7 @@ namespace PG_Тема_11.UI
                     System.Globalization.CultureInfo.InvariantCulture,
                     System.Globalization.DateTimeStyles.None, out DateTime startDate))
                 {
-                    Console.WriteLine("Невалиден формат за начална дата! Използвайте dd.MM.yyyy");
+                    PrintError("Невалиден формат за начална дата! Използвайте dd.MM.yyyy");
                     return;
                 }
 
@@ -873,7 +1113,7 @@ namespace PG_Тема_11.UI
                     System.Globalization.CultureInfo.InvariantCulture,
                     System.Globalization.DateTimeStyles.None, out DateTime endDate))
                 {
-                    Console.WriteLine("Невалиден формат за крайна дата! Използвайте dd.MM.yyyy");
+                    PrintError("Невалиден формат за крайна дата! Използвайте dd.MM.yyyy");
                     return;
                 }
 
@@ -881,13 +1121,15 @@ namespace PG_Тема_11.UI
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                PrintError(ex.Message);
             }
         }
 
         //19
         public void GenerateMostPopularCoursesReportUI()
         {
+            PrintSectionHeader("19. НАЙ-ПОПУЛЯРНИ КУРСОВЕ", ConsoleColor.Gray);
+
             try
             {
                 Console.Write("Начална дата (dd.MM.yyyy): ");
@@ -900,7 +1142,7 @@ namespace PG_Тема_11.UI
                     System.Globalization.CultureInfo.InvariantCulture,
                     System.Globalization.DateTimeStyles.None, out DateTime startDate))
                 {
-                    Console.WriteLine("Невалиден формат за начална дата! Използвайте dd.MM.yyyy");
+                    PrintError("Невалиден формат за начална дата! Използвайте dd.MM.yyyy");
                     return;
                 }
 
@@ -908,7 +1150,7 @@ namespace PG_Тема_11.UI
                     System.Globalization.CultureInfo.InvariantCulture,
                     System.Globalization.DateTimeStyles.None, out DateTime endDate))
                 {
-                    Console.WriteLine("Невалиден формат за крайна дата! Използвайте dd.MM.yyyy");
+                    PrintError("Невалиден формат за крайна дата! Използвайте dd.MM.yyyy");
                     return;
                 }
 
@@ -916,13 +1158,15 @@ namespace PG_Тема_11.UI
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                PrintError(ex.Message);
             }
         }
 
         //20
         public void GenerateStudentHistoryReportUI()
         {
+            PrintSectionHeader("20. ИСТОРИЯ НА ОБУЧЕНИЕТО", ConsoleColor.Gray);
+
             try
             {
                 Console.Write("Въведете idto на обучаем: ");
@@ -930,7 +1174,7 @@ namespace PG_Тема_11.UI
 
                 if (!int.TryParse(input, out int studentId) || studentId <= 0)
                 {
-                    Console.WriteLine("Невалидно ID! Моля въведете положително цяло число.");
+                    PrintError("Невалидно ID! Моля въведете положително цяло число.");
                     return;
                 }
 
@@ -938,7 +1182,7 @@ namespace PG_Тема_11.UI
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                PrintError(ex.Message);
             }
         }
     }
