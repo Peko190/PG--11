@@ -10,8 +10,8 @@ using PG_Тема_11.Infrastructure.EFData_Sql;
 namespace PG_Тема_11.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260603205517_innit")]
-    partial class innit
+    [Migration("20260611214652_Test")]
+    partial class Test
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
